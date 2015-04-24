@@ -42,7 +42,7 @@ import com.apps.fragments.SignUpFragment;
 import com.apps.fragments.UserReviewFragment;
 import com.facebook.Session;
 
-
+//this is the main activity class
 public class MainActivity extends Activity {
 	public static boolean isLogin = false;
 	private DrawerLayout mDrawerLayout;
