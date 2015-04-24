@@ -1,0 +1,60 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:padding="8dip" >
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="TODO"
+        android:src="@drawable/demo_food1" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/icon"
+         >
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/secondLine"
+        android:layout_width="fill_parent"
+        android:layout_height="20dip"
+        android:layout_alignLeft="@+id/textView5"
+        android:layout_marginTop="10px"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="Seafood Fish and Fast "
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/txt_view_restaurant_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txt_view_address"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/icon"
+        android:gravity="center_vertical"
+        android:text="Fish and Co."
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txt_view_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/relativeLayout1"
+        android:layout_marginLeft="25dp"
+        android:layout_toRightOf="@+id/icon"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="Gulshan,Dhaka"
+        android:textSize="13sp" />
+
+</RelativeLayout>

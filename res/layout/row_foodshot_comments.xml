@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@+id/txt_view_comments_count"
+    android:layout_marginBottom="5dp"
+    android:descendantFocusability="blocksDescendants"
+    android:padding="0dip" >
+
+    <TextView
+        android:id="@+id/text_view_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="test" />
+    <TextView
+        android:id="@+id/text_view_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:gravity="right"
+        android:layout_below="@+id/text_view_comment"
+        android:text="User" />
+
+</RelativeLayout>

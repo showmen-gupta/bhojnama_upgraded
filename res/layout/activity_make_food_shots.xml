@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp" >
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F2F2F2"
+        android:padding="5dp" >
+
+        <ImageView
+            android:id="@+id/image_view_btn_pick"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/post_image"
+            android:scaleType="centerCrop" />
+
+        <EditText
+            android:id="@+id/text_view_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/image_view_btn_pick"
+            android:layout_alignRight="@+id/image_view_btn_pick"
+            android:layout_below="@+id/image_view_btn_pick"
+            android:layout_marginTop="10dp"
+            android:hint="Title"
+            android:padding="5dp" />
+
+        <EditText
+            android:id="@+id/text_view_description"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_alignLeft="@+id/image_view_btn_pick"
+            android:layout_alignRight="@+id/image_view_btn_pick"
+            android:layout_below="@+id/text_view_title"
+            android:layout_marginTop="10dp"
+            android:gravity="top"
+            android:hint="Write something"
+            android:padding="5dp" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_make_food_shots"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/button_selector"
+        android:text="Post Food Shots"
+        android:textColor="#FFFFFF" />
+
+</RelativeLayout>

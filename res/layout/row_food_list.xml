@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:padding="8dip" >
+
+    <ImageView
+        android:id="@+id/ImageView02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView6"
+        android:contentDescription="TODO"
+        android:src="@drawable/demo_food1" 
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/text_view_food_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/ImageView02"
+        android:layout_alignTop="@+id/ImageView02"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="5dp"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:text="Fried Squid"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/text_view_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/TextView02"
+        android:layout_below="@+id/TextView02"
+        android:layout_marginTop="14dp"
+        android:text="Price:500tk" />
+
+    <TextView
+        android:id="@+id/TextView02"
+        android:layout_width="fill_parent"
+        android:layout_height="20dip"
+        android:layout_alignLeft="@+id/text_view_food_name"
+        android:layout_below="@+id/text_view_food_name"
+        android:ellipsize="marquee"
+        android:layout_marginTop="10dp"
+        android:singleLine="true"
+        android:text="Fried Squid with chips "
+        android:textSize="16sp" />
+
+</RelativeLayout>

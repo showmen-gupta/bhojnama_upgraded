@@ -1,0 +1,48 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="5dp"
+    android:descendantFocusability="blocksDescendants"
+    android:padding="0dip" >
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="#F2F2F2"
+        android:padding="5dp" >
+
+        <TextView
+            android:id="@+id/text_view_food_shot_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="It is awesome. lets go to enjoy. \nFlambe Restaurant \nGulshan 2, Road 7" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/viewpager_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout1"
+        android:background="#C2C3C5"
+        android:padding="1dp" >
+
+        <com.apps.customviews.ViewPagerContainer
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:padding="0dp" >
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="100dip"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:overScrollMode="never" />
+        </com.apps.customviews.ViewPagerContainer>
+    </RelativeLayout>
+
+</RelativeLayout>
