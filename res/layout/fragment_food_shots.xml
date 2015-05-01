@@ -5,13 +5,17 @@
     android:descendantFocusability="blocksDescendants"
     android:padding="5dp" >
 
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
+    <GridView
         android:id="@+id/list_view_food_shot"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/btn_make_food_shots"
         android:layout_centerHorizontal="true"
         android:clickable="true"
+        android:numColumns="2"
+         android:gravity="center"
+         android:columnWidth="100dp"
+         android:stretchMode="columnWidth"
         android:divider="@android:color/transparent"
         android:focusable="true"
         android:scrollbars="none" />

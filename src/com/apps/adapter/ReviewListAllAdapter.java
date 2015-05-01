@@ -64,7 +64,6 @@ public class ReviewListAllAdapter extends BaseAdapter {
 			holder.txtViewCommentDetails = (TextView) convertView.findViewById(R.id.text_view_comment);
 			holder.txtViewAuthor = (TextView) convertView.findViewById(R.id.text_view_user);
 			
-			holder.viewPager = (ViewPager) convertView.findViewById(R.id.viewpager);
 			
 			convertView.setTag(holder);
 

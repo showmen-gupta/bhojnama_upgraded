@@ -6,6 +6,7 @@ import com.apps.datamodel.FoodShotsInfo;
 import com.apps.datamodel.HottestFoodItemInfo;
 import com.apps.datamodel.HottestInfo;
 import com.apps.datamodel.NearbyInfo;
+import com.apps.datamodel.NearbyResInfo;
 import com.apps.datamodel.ReviewInfo;
 import com.apps.datamodel.UserInfo;
 
@@ -27,6 +28,8 @@ public class BhojNamaSingleton {
 	private ArrayList<UserInfo> arrayListUserInfo;
 	private ArrayList<ReviewInfo> arrayListReviewInfo;
 	private ArrayList<HottestFoodItemInfo> arrayListFoodInfo;
+	private ArrayList<NearbyResInfo> arrayListNearByResInfo;
+	
 	
 	
 	private UserInfo userInfo;
@@ -133,6 +136,14 @@ public class BhojNamaSingleton {
 
 	public void setArrayListFoodInfo(ArrayList<HottestFoodItemInfo> arrayListFoodInfo) {
 		this.arrayListFoodInfo = arrayListFoodInfo;
+	}
+
+	public ArrayList<NearbyResInfo> getArrayListNearByResInfo() {
+		return arrayListNearByResInfo;
+	}
+
+	public void setArrayListNearByResInfo(ArrayList<NearbyResInfo> arrayListNearByResInfo) {
+		this.arrayListNearByResInfo = arrayListNearByResInfo;
 	}
 	
 }

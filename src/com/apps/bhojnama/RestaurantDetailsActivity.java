@@ -49,7 +49,7 @@ public class RestaurantDetailsActivity extends Activity  implements OnClickListe
 		View headerView = this.getLayoutInflater().inflate(R.layout.header_hottest_details, null);
 		txtRestaurantName = (TextView) headerView.findViewById(R.id.txt_view_restaurant_name);
 		txtRestaurantAddress = (TextView) headerView.findViewById(R.id.txt_view_address);
-		txtViewDetails = (TextView) headerView.findViewById(R.id.txt_view_details);
+		
 		txtViewsCount= (TextView) headerView.findViewById(R.id.textView4);
 		img= (ImageView) headerView.findViewById(R.id.img_logo);
 		foodList = (ListView) findViewById(R.id.food_list);
@@ -67,7 +67,7 @@ public class RestaurantDetailsActivity extends Activity  implements OnClickListe
 		position  = getIntent().getExtras().getInt("position"); 
 		txtRestaurantName.setText(BhojNamaSingleton.getInstance().getHottestInfoList().get(position).getRestaurantName());
 		txtRestaurantAddress.setText(BhojNamaSingleton.getInstance().getHottestInfoList().get(position).getOpeningHour());
-		txtViewDetails.setText(BhojNamaSingleton.getInstance().getHottestInfoList().get(position).getRestaurantAbout());
+		
 		txtViewsCount.setText(Integer.toString(BhojNamaSingleton.getInstance().getHottestInfoList().get(position).getLikes()));
 		String img_url= "http://api.bhojnama.com/";
 		new AQuery(img).image(img_url+BhojNamaSingleton.getInstance().getHottestInfoList().get(position).getLogo(), true, true, 0, R.drawable.appicon);

@@ -31,14 +31,16 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#fff"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginRight="15dp" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:layout_marginBottom="1dp"
             android:layout_marginTop="1dp"
-            android:background="#DADADC" >
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/menu_seprator" >
         </View>
     </LinearLayout>
 
@@ -62,13 +64,15 @@
             <ImageView
                 android:id="@+id/drawer_icon"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content" 
+                android:layout_marginLeft="5dp"/>
 
             <TextView
                 android:id="@+id/drawer_itemName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_marginLeft="5dp"
                 android:textSize="18sp" />
         </LinearLayout>
 

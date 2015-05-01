@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -33,6 +34,7 @@ import com.apps.adapter.FoodShotsAdapter;
 import com.apps.bhojnama.FoodShotDetailActitvity;
 import com.apps.bhojnama.PostFoodShotsActivity;
 import com.apps.bhojnama.R;
+import com.apps.bhojnama.sharedpref.SharedPref;
 import com.apps.bhojnamainfo.BhojNamaSingleton;
 import com.apps.datamodel.FoodShotsInfo;
 import com.apps.jsonparser.JsonParser;
@@ -46,7 +48,7 @@ public class FoodShotsFragment extends Fragment implements OnClickListener, OnIt
 
 	private ImageView ivIcon;
 	private TextView tvItemName;
-	public static PullToRefreshListView foodShotList;
+	public static GridView foodShotList;
 	private ProgressBar progBarHottestList;
 	private TextView txtViewFooter;
 	private View footerView;
@@ -58,7 +60,7 @@ public class FoodShotsFragment extends Fragment implements OnClickListener, OnIt
 	private boolean isloading = false;
 	private boolean isFirstTime = true;
 	private int currentPageLimit = 1;
-	private FoodShotsAdapter foodShotsAdapter;
+	public static FoodShotsAdapter foodShotsAdapter;
 
 	public FoodShotsFragment() {
 
@@ -70,12 +72,12 @@ public class FoodShotsFragment extends Fragment implements OnClickListener, OnIt
 		
 		initView(view);
 		setListener();
-		loadData(3, 1);
+		loadData(50, 1);
 		return view;
 	}
 
 	private void setListViewListener() {
-		foodShotList.setOnRefreshListener(new OnRefreshListener2<ListView>() {
+		/*foodShotList.setOnRefreshListener(new OnRefreshListener2<ListView>() {
 			@Override
 			public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
 				
@@ -87,13 +89,14 @@ public class FoodShotsFragment extends Fragment implements OnClickListener, OnIt
 				loadData(3, currentPageLimit);
 			}
 
-		});
+		});*/
 	}
 
 	private void initView(View view) {
 		progBarHottestList = (ProgressBar) view.findViewById(R.id.progBarHottestList);
-		foodShotList = (PullToRefreshListView) view.findViewById(R.id.list_view_food_shot);
-		foodShotList.setMode(Mode.PULL_FROM_END);
+		foodShotList = (GridView) view.findViewById(R.id.list_view_food_shot);
+		//foodShotList.setMode(Mode.PULL_FROM_END);
+		
 		btnMakeShots = (Button) view.findViewById(R.id.btn_make_food_shots);
 		footerView =  ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_view, null, false);
 		txtViewFooter = (TextView) footerView.findViewById(R.id.textView1);
@@ -107,11 +110,12 @@ public class FoodShotsFragment extends Fragment implements OnClickListener, OnIt
 
 	private void setListener() {
 		foodShotList.setOnItemClickListener(this);
-		foodShotList.setOnClickListener(this);
+		//foodShotList.setOnClickListener(this);
 		btnMakeShots.setOnClickListener(this);
 	}
 
 	private void loadData(final int limit_size, final int page_size) {
+		
 		RequestQueue queue = Volley.newRequestQueue(getActivity());
 		String url = "http://api.bhojnama.com/api/food-shot?limit=" + limit_size + "&page=" + page_size;
 		StringRequest dr = new StringRequest(Request.Method.GET, url,
@@ -122,16 +126,16 @@ public class FoodShotsFragment extends Fragment implements OnClickListener, OnIt
 					Log.i("Response Food Shot", "" + response);
 					JsonParser.parseFoodShots(response, page_size);
 					if ( page_size > BhojNamaSingleton.getInstance().getTotalPages()) {
-						foodShotList.onRefreshComplete();
+						//foodShotList.onRefreshComplete();
 						return;
 					}
 					
 					if (currentPageLimit == 1) {
 						foodShotList.setAdapter(foodShotsAdapter);
-						foodShotList.onRefreshComplete();
+						//foodShotList.onRefreshComplete();
 					} else {
 						foodShotsAdapter.notifyDataSetChanged();
-						foodShotList.onRefreshComplete();
+						//foodShotList.onRefreshComplete();
 					}
 					progBarHottestList.setVisibility(View.GONE);
 				} catch (JSONException e) {
@@ -157,7 +161,25 @@ public class FoodShotsFragment extends Fragment implements OnClickListener, OnIt
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.btn_make_food_shots) {
-			getActivity().startActivity(new Intent(getActivity(), PostFoodShotsActivity.class));
+			SharedPref sharedPref = new SharedPref(getActivity());
+			if(sharedPref.getLoginStatus().equalsIgnoreCase("1")) {
+				getActivity().startActivity(new Intent(getActivity(), PostFoodShotsActivity.class));
+			
+			} else {
+				Fragment fragment = null;
+				Bundle args = new Bundle();
+				args.putInt("position", 0);
+				args.putInt("fragment_no", 5);
+				fragment = new LogInFragment();
+				fragment.setArguments(args);
+				android.app.FragmentManager frgManager = getFragmentManager();
+				android.app.FragmentTransaction ft = frgManager.beginTransaction();
+				ft.replace(R.id.content_frame, fragment);
+				ft.addToBackStack(null);
+				ft.commit();
+			}
+			
+			
 			
 		}
 	}
@@ -166,7 +188,7 @@ public class FoodShotsFragment extends Fragment implements OnClickListener, OnIt
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		Log.i("POSITION", "****" + arg2);
 		Intent intent = new Intent(getActivity(), FoodShotDetailActitvity.class);
-		intent.putExtra("position", arg2);
+		intent.putExtra("position", arg2 + 1);
 		startActivity(intent);
 	}
 

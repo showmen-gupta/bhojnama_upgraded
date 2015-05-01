@@ -32,14 +32,18 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.apps.bhojnama.MainActivity;
+import com.apps.bhojnama.PostFoodShotsActivity;
 import com.apps.bhojnama.R;
+import com.apps.bhojnama.RestaurantReviewActivity;
 import com.apps.bhojnama.SignUpActivity;
+import com.apps.bhojnama.sharedpref.SharedPref;
 import com.apps.bhojnamainfo.BhojNamaSingleton;
 import com.apps.facebooksys.FacebookModule;
 import com.apps.jsonparser.JsonParser;
 import com.apps.utility.ConstantValue;
 
-public class SignUpFragment   extends Fragment implements OnClickListener {
+public class LogInFragment   extends Fragment implements OnClickListener {
+	private int fragment_no = 0;
 	private View view;
 	private ImageView ivIcon;
 	private ImageView fbLogin;
@@ -51,7 +55,9 @@ public class SignUpFragment   extends Fragment implements OnClickListener {
 	public static final String IMAGE_RESOURCE_ID = "iconResourceID";
 	public static final String ITEM_NAME = "itemName";
 	boolean Islogin;
-	public SignUpFragment() {
+	
+	private SharedPref sharedPref;
+	public LogInFragment() {
 		
 	}
 	
@@ -62,10 +68,13 @@ public class SignUpFragment   extends Fragment implements OnClickListener {
 		
 		intiView();
 		setListener();
-		//tvItemName.setText(getArguments().getString(ITEM_NAME));
+		
 		return view;
 	}
 	private void intiView() {
+		fragment_no = getArguments().getInt("fragment_no");
+		
+		sharedPref = new SharedPref(getActivity());
 		fbLogin = (ImageView) view.findViewById(R.id.image_view_btn_fb_login);
 		edtTextEmail = (EditText) view.findViewById(R.id.edit_text_user);
 		edtTextPassword = (EditText) view.findViewById(R.id.edit_text_password);
@@ -126,18 +135,39 @@ public class SignUpFragment   extends Fragment implements OnClickListener {
             		int status = JsonParser.parseLoginInfo(response);
 					if (status == 1) {
 						MainActivity.isLogin = true;
-						Fragment fragment = null;
-						Bundle args = new Bundle();
-						args.putInt("position", 0);
-						  
-						fragment = new HottestFragment();
-						fragment.setArguments(args);
-						android.app.FragmentManager frgManager = getFragmentManager();
-						  
-						android.app.FragmentTransaction ft = frgManager.beginTransaction();
-						ft.replace(R.id.content_frame, fragment);
-						//ft.addToBackStack(null);
-						ft.commit();
+						sharedPref.setLoginStatus("1");
+						
+						if(fragment_no == 5) {
+							
+							Intent intent = new Intent(getActivity(), PostFoodShotsActivity.class);
+							intent.putExtra("position", 0);
+							intent.putExtra("list_position", getArguments().getInt("position"));
+							startActivity(intent);
+							
+							Fragment fragment = null;
+							Bundle args = new Bundle();
+							args.putInt("position", 0);
+							  
+							fragment = new FoodShotsFragment();
+							fragment.setArguments(args);
+							android.app.FragmentManager frgManager = getFragmentManager();
+							  
+							android.app.FragmentTransaction ft = frgManager.beginTransaction();
+							ft.replace(R.id.content_frame, fragment);
+							//ft.addToBackStack(null);
+							//ft.remove(fragment);
+							ft.commit();
+							
+							//getActivity().onBackPressed();
+							
+						} else if (fragment_no == 4) {
+							Intent intent = new Intent(getActivity(), RestaurantReviewActivity.class);
+							//intent.putExtra("position", BhojNamaSingleton.getInstance().getHottestInfoList().get(position).getRestaurantId());
+							intent.putExtra("list_position", getArguments().getInt("position"));
+							startActivity(intent);
+						}
+						
+						
 						Toast.makeText(getActivity(), "You login process complete", Toast.LENGTH_SHORT).show();
 						SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
 						SharedPreferences.Editor editor = settings.edit();

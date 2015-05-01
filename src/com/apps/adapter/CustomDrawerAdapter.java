@@ -9,6 +9,7 @@ import com.apps.datamodel.SpinnerItem;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +51,10 @@ public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
 
 			view = inflater.inflate(layoutResID, parent, false);
 			drawerHolder.ItemName = (TextView) view.findViewById(R.id.drawer_itemName);
+			
+			Typeface type = Typeface.createFromAsset(getContext().getAssets(),"fonts/OpenSans-Light.ttf");
+			drawerHolder.ItemName.setTypeface(type);
+			
 			drawerHolder.icon = (ImageView) view.findViewById(R.id.drawer_icon);
 
 			drawerHolder.spinner = (Spinner) view.findViewById(R.id.drawerSpinner);

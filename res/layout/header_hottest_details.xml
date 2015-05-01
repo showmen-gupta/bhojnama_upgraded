@@ -1,12 +1,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/relativeLayoutHeader"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:background="#cfdecd" >
 
     <RelativeLayout
         android:id="@+id/relativeLayout1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:background="@drawable/blur_green"
         android:padding="10dp" >
 
@@ -15,62 +16,43 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="5dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="88dp"
             android:text="Title"
             android:textColor="@color/white"
             android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/txt_view_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/txt_view_restaurant_name"
-            android:layout_below="@+id/txt_view_restaurant_name"
-            android:layout_marginTop="5dp"
-            android:text="Type"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/img_logo"
-            android:text="Likes"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/textView3"
-            android:layout_alignBottom="@+id/textView3"
-            android:layout_marginLeft="30dp"
-            android:layout_toRightOf="@+id/textView3"
-            android:text="1000"
-            android:textColor="@color/white" />
 
         <ImageView
             android:id="@+id/img_logo"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:src="@drawable/demo_food1" />
-    </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/relative_layout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/relativeLayout1"
-        android:layout_marginTop="5dp"
-        android:padding="5dp" >
+        <Button
+            android:id="@+id/btn_get_me_there"
+            android:layout_width="95dp"
+            android:layout_height="30dp"
+            android:layout_alignBaseline="@+id/btn_book_table"
+            android:layout_alignBottom="@+id/btn_book_table"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/button_selector"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="Get Me There"
+            android:textColor="#fff"
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/btn_book_table"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/relativeLayout2"
+            android:layout_width="95dp"
+            android:layout_height="30dp"
+            android:layout_alignLeft="@+id/img_logo"
+            android:layout_below="@+id/img_logo"
+            android:layout_marginTop="15dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:background="@drawable/button_selector"
             android:text="Book A Table"
             android:textColor="#fff"
@@ -78,52 +60,62 @@
 
         <Button
             android:id="@+id/btn_submit_review"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/btn_get_me_there"
-            android:layout_alignBottom="@+id/btn_get_me_there"
+            android:layout_width="95dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/btn_get_me_there"
             android:background="@drawable/button_selector"
             android:text="Reviews"
             android:textColor="#fff"
             android:textSize="14sp" />
 
-        <Button
-            android:id="@+id/btn_get_me_there"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/button_selector"
-            android:text="Get Me There"
-            android:textColor="#fff"
-            android:textSize="14sp" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/relative_layout2"
-        android:layout_marginTop="5dp"
-        android:padding="5dp" >
-
         <TextView
-            android:id="@+id/txt_view_details"
+            android:id="@+id/address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cat went on, &apos;that they&apos;d let Dinah stop in the middle, being held up by two guinea-pigs, who were all talking at once, with a teacup in one hand and a fall, and a scroll of parchment in the pool"
-            android:textColor="@color/black" />
+            android:layout_above="@+id/txt_view_address"
+            android:layout_alignLeft="@+id/txt_view_restaurant_name"
+            android:text="Dhaka, Bangladesh"
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:id="@+id/txt_view_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/textView3"
+            android:layout_alignLeft="@+id/address"
+            android:text="Type"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_book_table"
+            android:layout_alignLeft="@+id/txt_view_address"
+            android:text="1000"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_book_table"
+            android:layout_toRightOf="@+id/textView4"
+            android:layout_marginLeft="10dp"
+            android:text="Likes"
+            android:textColor="@color/white" />
+
     </RelativeLayout>
+
 
     <RelativeLayout
         android:id="@+id/relativeLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/relativeLayout3"
+        android:layout_below="@+id/relativeLayout1"
         android:layout_margin="5dp"
-        android:background="@drawable/button_selector"
         android:padding="5dp" >
 
         <TextView
@@ -131,8 +123,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Food Items"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textColor="#23c08e"
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
 </RelativeLayout>

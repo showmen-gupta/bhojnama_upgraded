@@ -61,7 +61,7 @@ public class FoodShotsAdapter extends BaseAdapter {
 			holder.txtViewFoodShotDetails = (TextView) convertView.findViewById(R.id.text_view_food_shot_details);
 			holder.txtViewPrice = (TextView) convertView.findViewById(R.id.text_view_price);
 			
-			holder.viewPager = (ViewPager) convertView.findViewById(R.id.viewpager);
+			holder.imgViewShots = (ImageView) convertView.findViewById(R.id.imgViewShots);
 			
 			convertView.setTag(holder);
 
@@ -69,7 +69,7 @@ public class FoodShotsAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
-		ViewAdapter viewAdapter = new ViewAdapter();
+		/*ViewAdapter viewAdapter = new ViewAdapter();
 		
 		viewAdapter.setCount(3);
 		
@@ -77,9 +77,10 @@ public class FoodShotsAdapter extends BaseAdapter {
 		holder.viewPager.setOffscreenPageLimit(5);
 		holder.viewPager.setPageMargin(5);
 		holder.viewPager.setClipChildren(false);
+		*/
 		
 		Log.e("FOOD DETAILS", "#####" + BhojNamaSingleton.getInstance().getArrayListFoodShots().get(position).getFoodShotDetails());
-		holder.txtViewFoodShotDetails.setText(BhojNamaSingleton.getInstance().getArrayListFoodShots().get(position).getFoodShotDetails());
+		holder.txtViewFoodShotDetails.setText(BhojNamaSingleton.getInstance().getArrayListFoodShots().get(position).getFoodShotName().trim());
 		
 		return convertView;
 	}
@@ -100,6 +101,7 @@ public class FoodShotsAdapter extends BaseAdapter {
 		TextView txtViewTo;
 
 		ImageView imgViewFavoriate;
+		ImageView imgViewShots;
 		ViewPager viewPager;
 	}
 

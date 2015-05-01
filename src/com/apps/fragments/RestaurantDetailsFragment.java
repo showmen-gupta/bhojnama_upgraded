@@ -20,9 +20,11 @@ import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.apps.adapter.HottestFoodItemAdapter;
+import com.apps.bhojnama.LogInActivity;
 import com.apps.bhojnama.NearbyMapDirectionActivity;
 import com.apps.bhojnama.R;
 import com.apps.bhojnama.RestaurantReviewActivity;
+import com.apps.bhojnama.sharedpref.SharedPref;
 import com.apps.bhojnamainfo.BhojNamaSingleton;
 
 public class RestaurantDetailsFragment extends Fragment implements OnClickListener, OnItemClickListener{
@@ -73,7 +75,7 @@ public class RestaurantDetailsFragment extends Fragment implements OnClickListen
 		txtRestaurantName.setText(BhojNamaSingleton.getInstance().getHottestInfoList().get(getArguments().getInt("position")).getRestaurantName());
 		txtRestaurantAddress.setText(BhojNamaSingleton.getInstance().getHottestInfoList().get(getArguments().getInt("position")).getOpeningHour());
 		txtViewsCount.setText(Integer.toString(BhojNamaSingleton.getInstance().getHottestInfoList().get(getArguments().getInt("position")).getLikes()));
-		txtViewDetails.setText(BhojNamaSingleton.getInstance().getHottestInfoList().get(getArguments().getInt("position")).getRestaurantAbout());
+		
 		String img_url="http://api.bhojnama.com/";
 		new AQuery(getActivity()).id(imgViewLogo).image(img_url+BhojNamaSingleton.getInstance().getHottestInfoList().get(getArguments().getInt("position")).getLogo(), true, true, 0, R.drawable.appicon);
 		
@@ -84,7 +86,6 @@ public class RestaurantDetailsFragment extends Fragment implements OnClickListen
 		headerView = getActivity().getLayoutInflater().inflate(R.layout.header_hottest_details, null);
 		txtRestaurantName = (TextView) headerView.findViewById(R.id.txt_view_restaurant_name);
 		txtRestaurantAddress = (TextView) headerView.findViewById(R.id.txt_view_address);
-		txtViewDetails = (TextView) headerView.findViewById(R.id.txt_view_details);
 		txtViewsCount= (TextView) headerView.findViewById(R.id.textView4);
 		foodList = (ListView) rootView.findViewById(R.id.food_list);
 		foodList.addHeaderView(headerView);
@@ -124,10 +125,12 @@ public class RestaurantDetailsFragment extends Fragment implements OnClickListen
 			startActivity(intent);
 			
 		} else if (v.getId() == R.id.btn_submit_review) {
+			
 			Intent intent = new Intent(getActivity(), RestaurantReviewActivity.class);
 			intent.putExtra("position", BhojNamaSingleton.getInstance().getHottestInfoList().get(position).getRestaurantId());
 			intent.putExtra("list_position", getArguments().getInt("position"));
 			startActivity(intent);
+			
 			
 		} else if (v.getId() == R.id.btn_book_table) {
 			Toast.makeText(getActivity(), "Position: " + getArguments().getInt("position"), Toast.LENGTH_SHORT).show();

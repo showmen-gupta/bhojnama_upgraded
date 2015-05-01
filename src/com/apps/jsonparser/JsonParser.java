@@ -17,6 +17,7 @@ import com.apps.datamodel.HottestInfo;
 import com.apps.datamodel.LocationAreaInfo;
 import com.apps.datamodel.LocationCityInfo;
 import com.apps.datamodel.NearbyInfo;
+import com.apps.datamodel.NearbyResInfo;
 import com.apps.datamodel.RestaurantInfo;
 import com.apps.datamodel.ReviewInfo;
 import com.apps.datamodel.UserInfo;
@@ -420,6 +421,67 @@ public class JsonParser {
 			
 		}*/
 		
+		
+		//BhojNamaSingleton.getInstance().getHottestInfoList().add;
+		//BhojNamaSingleton.getInstance().setArrayListNearByInfo(listNearByInfo);
+		
+	}
+	
+	
+	public static void parseNearbyResData(String response) throws JSONException {
+		String logindata;
+		
+		JSONObject jDataObj = new JSONObject(response);
+		logindata = jDataObj.getString("data");
+		
+		//JSONArray jsonResultArray = jDataObj.getJSONArray("restaurant");
+		JSONArray jsonResultArray = jDataObj.getJSONObject("data").getJSONArray("restaurant");
+		int resultSize = jsonResultArray.length();
+		
+		for (int i = 0; i < resultSize; i++) {
+			ArrayList<HottestFoodItemInfo> listHottestItem = new ArrayList<HottestFoodItemInfo>();
+			NearbyResInfo nearInfo = new NearbyResInfo();
+			//if(jsonResultArray.getJSONObject(i).getInt("hottest")==1){
+			nearInfo.setRestaurantId(jsonResultArray.getJSONObject(i).getInt("id"));
+			nearInfo.setRestaurantName(jsonResultArray.getJSONObject(i).getString("name"));
+			nearInfo.setRestaurantAbout(jsonResultArray.getJSONObject(i).getString("about"));
+			nearInfo.setLogo(jsonResultArray.getJSONObject(i).getString("logo"));
+			nearInfo.setLikes(jsonResultArray.getJSONObject(i).getInt("likes"));
+				
+			JSONArray branchArray = jsonResultArray.getJSONObject(i).getJSONArray("branches");
+				
+			JSONArray itemArray = jsonResultArray.getJSONObject(i).getJSONArray("items");
+				
+				int itemSize = itemArray.length();
+				for (int j2 = 0; j2 < itemSize; j2++) {
+					
+					HottestFoodItemInfo hotFoodItem = new HottestFoodItemInfo();
+					Log.e("Restaurant Price", "-----" + itemArray.getJSONObject(j2).getString("price"));
+					hotFoodItem.setFoodItemId(itemArray.getJSONObject(j2).getInt("id"));
+					hotFoodItem.setFoodTitle(itemArray.getJSONObject(j2).getString("title"));
+					hotFoodItem.setDescription(itemArray.getJSONObject(j2).getString("description"));
+					hotFoodItem.setPrice(itemArray.getJSONObject(j2).getString("price"));
+					listHottestItem.add(hotFoodItem);
+				}
+				
+				int brachSize = jsonResultArray.getJSONObject(i).getJSONArray("branches").length();
+				for (int j = 0; j < brachSize; j++) {
+					Log.e("Restaurant Branch HOT", "-----" + branchArray.getJSONObject(j).getString("city"));
+					nearInfo.setBranchId(branchArray.getJSONObject(j).getInt("id"));
+					nearInfo.setIsOpen(branchArray.getJSONObject(j).getInt("is_open"));
+					nearInfo.setOpeningHour(branchArray.getJSONObject(j).getString("opening_hour"));
+					nearInfo.setCity(branchArray.getJSONObject(j).getString("city"));
+					
+					nearInfo.setArea(branchArray.getJSONObject(j).getString("area"));
+					nearInfo.setLat(branchArray.getJSONObject(j).getDouble("latitude"));
+					nearInfo.setLon(branchArray.getJSONObject(j).getDouble("longitude"));
+				}
+				
+				nearInfo.setHottestFoodItemList(listHottestItem);
+				//listHottestInfo.add(hottestInfo);
+				BhojNamaSingleton.getInstance().getArrayListNearByResInfo().add(nearInfo);
+			//}
+		}
 		
 		//BhojNamaSingleton.getInstance().getHottestInfoList().add;
 		//BhojNamaSingleton.getInstance().setArrayListNearByInfo(listNearByInfo);

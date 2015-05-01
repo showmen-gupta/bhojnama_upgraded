@@ -3,6 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
+    <!--
     <TextView
         android:id="@+id/second_base"
         android:layout_width="wrap_content"
@@ -40,13 +41,21 @@
         android:layout_marginRight="12dp"
         android:textStyle="bold"
         android:text="10km" />
+    -->
+
+    <ProgressBar
+        android:id="@+id/progBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 
     <ListView
         android:id="@+id/nearbyList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/seekBar1"
         android:layout_above="@+id/sh"
+        android:layout_below="@+id/seekBar1"
         android:layout_marginTop="8dp" >
     </ListView>
 
@@ -60,6 +69,7 @@
         android:background="#23c08e"
         android:text="SHOW MORE"
         android:textColor="#fff"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:visibility="gone" />
 
 </RelativeLayout>

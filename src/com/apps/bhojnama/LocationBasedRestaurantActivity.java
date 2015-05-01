@@ -7,10 +7,12 @@ import org.json.JSONException;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ProgressBar;
 
@@ -39,6 +41,7 @@ public class LocationBasedRestaurantActivity extends Activity implements OnItemC
 	private ProgressBar progBarHottestList;
 	private PullToRefreshListView listview;
 	private HottestAdapter hottestAdapter;
+	private Button showmore;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,8 +70,11 @@ public class LocationBasedRestaurantActivity extends Activity implements OnItemC
 
 	private void intiView() {
 		listview =(PullToRefreshListView) findViewById(R.id.restaurant_list);
+		showmore= (Button) findViewById(R.id.show_more);
 	    listview.setMode(Mode.PULL_FROM_END);
 	    progBarHottestList = (ProgressBar) findViewById(R.id.progBar);
+	    Typeface font = Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Light.ttf"); 
+		showmore.setTypeface(font);
 	}
 	
 	private void populatedRestaurantList(String URL) {

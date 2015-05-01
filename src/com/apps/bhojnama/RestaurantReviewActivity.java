@@ -33,9 +33,10 @@ import com.androidquery.AQuery;
 import com.apps.adapter.HottestFoodItemAdapter;
 import com.apps.adapter.ReviewListAllAdapter;
 import com.apps.bhojnama.R;
+import com.apps.bhojnama.sharedpref.SharedPref;
 import com.apps.bhojnamainfo.BhojNamaSingleton;
 import com.apps.fragments.BooktableFragment;
-import com.apps.fragments.SignUpFragment;
+import com.apps.fragments.LogInFragment;
 import com.apps.jsonparser.JsonParser;
 
 public class RestaurantReviewActivity extends Activity implements OnClickListener, OnItemClickListener{
@@ -115,12 +116,29 @@ public class RestaurantReviewActivity extends Activity implements OnClickListene
 			startActivity(intent);
 			
 		} else if (v.getId() == R.id.btn_submit_review) {
-			Intent intent = new Intent(this, SubmitReviewActivity.class);
+			
+			SharedPref sharedPref = new SharedPref(this);
+			
+			if (!sharedPref.getLoginStatus().equalsIgnoreCase("1")) {
+				Toast.makeText(getApplicationContext(), "Please Login First", Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(RestaurantReviewActivity.this, LogInActivity.class);
+				//intent.putExtra("position", BhojNamaSingleton.getInstance().getHottestInfoList().get(position).getRestaurantId());
+				intent.putExtra("fragment_no", 2);
+				intent.putExtra("list_position", list_position);
+				
+				startActivity(intent);
+			} else {
+				Intent intent = new Intent(this, SubmitReviewActivity.class);
+				intent.putExtra("position", position);
+				intent.putExtra("list_position", list_position);
+				startActivity(intent);
+				
+			}
+			
+			/*Intent intent = new Intent(this, SubmitReviewActivity.class);
 			intent.putExtra("position", BhojNamaSingleton.getInstance().getHottestInfoList().get(position).getRestaurantId());
 			intent.putExtra("list_position", position);
-			startActivity(intent);
-			
-			
+			startActivity(intent);*/
 			
 		} else if (v.getId() == R.id.btn_book_table) {
 			Toast.makeText(this, "Position: " + position, Toast.LENGTH_SHORT).show();
@@ -146,7 +164,7 @@ public class RestaurantReviewActivity extends Activity implements OnClickListene
 	@Override
 	public void onResume() {
 		super.onResume();
-		 this.getActionBar().setTitle("Restaurant Details");
+		this.getActionBar().setTitle("Restaurant Details");
 		//getActivity().setTitle("Restaurant Details11");
 	}
 	

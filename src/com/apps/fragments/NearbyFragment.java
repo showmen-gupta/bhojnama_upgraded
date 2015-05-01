@@ -7,6 +7,7 @@ import org.json.JSONException;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -35,15 +37,18 @@ import com.apps.bhojnama.NearbyMapDirectionActivity;
 import com.apps.bhojnama.R;
 import com.apps.bhojnamainfo.BhojNamaSingleton;
 import com.apps.datamodel.NearbyInfo;
+import com.apps.datamodel.NearbyResInfo;
 import com.apps.datamodel.Nearbylist;
 import com.apps.jsonparser.JsonParser;
 import com.apps.utility.GPSTracker;
+import com.google.android.gms.maps.model.LatLng;
 
 public class NearbyFragment extends Fragment implements OnItemClickListener,OnClickListener {
 
 	ImageView ivIcon;
 	TextView tvItemName;
-
+	private ProgressBar progBar;
+	
 	public static final String IMAGE_RESOURCE_ID = "iconResourceID";
 	public static final String ITEM_NAME = "itemName";
 	public static final String GOOGLE_API_KEY = "AIzaSyCe07HODubxXpJWTCpgWTlBFkRMBwrsPj4";
@@ -53,13 +58,17 @@ public class NearbyFragment extends Fragment implements OnItemClickListener,OnCl
 	private View rootView;
 	private List<Nearbylist> myNearby= new ArrayList<Nearbylist>();
 	ListView listview;
+	GPSTracker gps;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.fragment_nearby_list, container, false);
 		listview =(ListView) rootView.findViewById(R.id.nearbyList);
-		URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + new GPSTracker(getActivity()).getLatitude() +"," + new GPSTracker(getActivity()).getLongitude() +"&radius=500&types=restaurant&key=AIzaSyCe07HODubxXpJWTCpgWTlBFkRMBwrsPj4";
-        populateNearbyList();
+		progBar = (ProgressBar) rootView.findViewById(R.id.progBar);
+		gps = new GPSTracker(getActivity());
+		//URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + new GPSTracker(getActivity()).getLatitude() +"," + new GPSTracker(getActivity()).getLongitude() +"&radius=500&types=restaurant&key=AIzaSyCe07HODubxXpJWTCpgWTlBFkRMBwrsPj4";
+        URL = "http://api.bhojnama.com/api/nearby?longitude=" + gps.getLongitude() +"&latitude=" + gps.getLatitude() + "&page=1&limit=50";
+		///populateNearbyList();
         populateListView();
         //populateNearbyList();
         return rootView;
@@ -76,9 +85,10 @@ public class NearbyFragment extends Fragment implements OnItemClickListener,OnCl
     	        public void onResponse(String response) {
     	            // response
 					try {
-						ArrayList<NearbyInfo> nearByList = new ArrayList<NearbyInfo>();
-						BhojNamaSingleton.getInstance().setArrayListNearByInfo(nearByList);
-						JsonParser.parseNearbyData(response);
+						progBar.setVisibility(View.GONE);
+						ArrayList<NearbyResInfo> nearByList = new ArrayList<NearbyResInfo>();
+						BhojNamaSingleton.getInstance().setArrayListNearByResInfo(nearByList);
+						JsonParser.parseNearbyResData(response);
 						populateNearbyList();
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
@@ -91,6 +101,7 @@ public class NearbyFragment extends Fragment implements OnItemClickListener,OnCl
     	         @Override
     	         public void onErrorResponse(VolleyError error) {
     	             // error.
+    	        	 progBar.setVisibility(View.GONE);
     	         }
     	    }
     	);
@@ -104,16 +115,28 @@ public class NearbyFragment extends Fragment implements OnItemClickListener,OnCl
 	}
 
 	private void populateNearbyList() {
+		LatLng latLng = new LatLng(gps.getLatitude(), gps.getLongitude());
 		listview.setOnItemClickListener(this);
-		listview.setAdapter(new NearbyAdapter(getActivity(), BhojNamaSingleton.getInstance().getArrayListNearByInfo()));
+		listview.setAdapter(new NearbyAdapter(getActivity(), BhojNamaSingleton.getInstance().getArrayListNearByResInfo(), latLng));
 	}
 	
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
-		Intent intent = new Intent(getActivity(), NearbyMapDirectionActivity.class);
+		/*Intent intent = new Intent(getActivity(), NearbyMapDirectionActivity.class);
 		intent.putExtra("list_position", position);
 		intent.putExtra("view_type", "nearby");
-		startActivity(intent);
+		startActivity(intent);*/
+		Fragment fragment = null;
+		  Bundle args = new Bundle();
+		  args.putInt("position", position);
+		  fragment = new NearByResDetailsFragment();
+		  fragment.setArguments(args);
+		  FragmentManager frgManager = getFragmentManager();
+		  android.app.FragmentTransaction ft = frgManager.beginTransaction();
+		  //ft.hide(getParentFragment());
+		  ft.add(R.id.content_frame, fragment);
+		  ft.addToBackStack(null);
+		  ft.commit();
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import org.json.JSONException;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -48,7 +50,7 @@ public class HottestFragment extends Fragment implements OnItemClickListener{
 	private int currentPageLimit = 1;
 	private List<hottestlist> myHottest= new ArrayList<hottestlist>();
 	private HottestAdapter hottestAdapter;
-	
+	private Button showmore;
 	@Override
 	public void onAttach(Activity activity) {
 		Log.i("Hootest attach", "ok....");
@@ -86,6 +88,13 @@ public class HottestFragment extends Fragment implements OnItemClickListener{
 	}
 
 	private void initView(View view) {
+		showmore= (Button) rootView.findViewById(R.id.show_more);
+		
+		Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf"); 
+		showmore.setTypeface(font);
+		
+		
+		
 		listview =(PullToRefreshListView) rootView.findViewById(R.id.hottest_list);
 	    listview.setMode(Mode.PULL_FROM_END);
 	    listview.setOnItemClickListener(this);

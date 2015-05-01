@@ -27,7 +27,9 @@ import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.BitmapAjaxCallback;
+import com.apps.bhojnamainfo.BhojNamaSingleton;
 import com.apps.customviews.CustomProgressDialog;
+import com.apps.datamodel.FoodShotsInfo;
 import com.apps.jsonparser.OnImageUploadComplete;
 import com.apps.jsonparser.UploadImageAsyncTask;
 
@@ -173,6 +175,14 @@ public class PostFoodShotsActivity extends Activity implements OnClickListener{
 	}
 	
 	private void resetInputText() {
+		FoodShotsInfo newFoodShotsInfo = new FoodShotsInfo();
+		newFoodShotsInfo.setFoodShotName(editTextTitle.getText().toString().trim());
+		newFoodShotsInfo.setFoodShotDetails(editTextDescription.getText().toString().trim());
+		BhojNamaSingleton.getInstance().getArrayListFoodShots().add(newFoodShotsInfo);
+		
+		//BhojNamaSingleton.getInstance().getArrayListFoodShots().get(position).getFoodShotsComments().add(0, newFoodShotComments);
+		
+		
 		editTextTitle.setText("");
 		editTextDescription.setText("");
 		imgViewPick.setImageBitmap(null);

@@ -1,122 +1,152 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
+    android:background="#cfdecd"
     android:padding="8dip" >
 
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="10dp"
-        android:adjustViewBounds="true"
-        android:contentDescription="TODO"
-        android:scaleType="fitXY"
-        android:src="@drawable/demo_food1" />
-
     <RelativeLayout
-        android:id="@+id/relativeLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/icon"
-        android:padding="16dip" >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/custom_shape" >
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="10dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/demo_food1"
+            android:background="#d5d9d7" />
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/icon"
+            android:padding="16dip" >
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txt_view_restaurant_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/icon"
+            android:layout_toRightOf="@+id/icon"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="Fish and Co."
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtViewDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/txt_view_restaurant_name"
+            android:layout_marginRight="17dp"
+            android:text="1 Miles"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/views"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relativeLayout1"
+            android:layout_toRightOf="@+id/relativeLayout1"
+            android:text="1,000"
+            android:layout_marginTop="25dp"
+            android:textColor="#009900"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtViewLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/views"
+            android:layout_alignBottom="@+id/views"
+            android:layout_marginLeft="17dp"
+            android:layout_toRightOf="@+id/views"
+            android:text="Likes "
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/txtViewDistance"
+            android:layout_alignBottom="@+id/txtViewDistance"
+            android:layout_alignLeft="@+id/txt_view_restaurant_name"
+            android:text="Dhaka,Bangladesh" />
+
+        <TextView
+            android:id="@+id/opening_hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/address"
+            android:layout_below="@+id/address"
+            android:text="Opening hr:"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_view_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/opening_hour"
+            android:layout_toRightOf="@+id/icon"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:text="Gulshan,Dhaka"
+            android:textSize="13sp" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="9dp"
+            android:layout_alignBottom="@+id/relativeLayout1"
+            android:layout_alignRight="@+id/txtViewDistance"
+            android:src="@drawable/location_icon" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/views"
+            android:layout_below="@+id/relativeLayout1"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/menu_seprator" />
+
+        <TextView
+            android:id="@+id/review_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/txtViewLike"
+            android:layout_alignBottom="@+id/txtViewLike"
+            android:layout_toRightOf="@+id/opening_hour"
+            android:text="10"
+            android:textColor="#009900"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/review_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_alignBaseline="@+id/review_count"
+            android:layout_alignBottom="@+id/review_count"
+            android:layout_toRightOf="@+id/txt_view_address"
+            android:text="Reviews" />
+
     </RelativeLayout>
-
-    <TextView
-        android:id="@+id/txt_view_restaurant_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/icon"
-        android:layout_toRightOf="@+id/icon"
-        android:gravity="center_vertical"
-        android:singleLine="true"
-        android:text="Fish and Co."
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/txtViewDistance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/txt_view_restaurant_name"
-        android:layout_marginRight="17dp"
-        android:text="1 Miles"
-        android:textSize="14sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/views"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/relativeLayout1"
-        android:layout_toRightOf="@+id/relativeLayout1"
-        android:text="1,000"
-        android:textColor="#009900"
-        android:textSize="14sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/views"
-        android:layout_alignBottom="@+id/views"
-        android:layout_marginLeft="17dp"
-        android:layout_toRightOf="@+id/views"
-        android:text="Likes "
-        android:textSize="15sp" />
-
-    <TextView
-        android:id="@+id/address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/txtViewDistance"
-        android:layout_alignBottom="@+id/txtViewDistance"
-        android:layout_alignLeft="@+id/txt_view_restaurant_name"
-        android:text="Dhaka,Bangladesh" />
-
-    <TextView
-        android:id="@+id/opening_hour"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/address"
-        android:layout_below="@+id/address"
-        android:text="Opening hr:"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/txt_view_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/opening_hour"
-        android:layout_toRightOf="@+id/icon"
-        android:ellipsize="marquee"
-        android:singleLine="true"
-        android:text="Gulshan,Dhaka"
-        android:textSize="13sp" />
-
-    <TextView
-        android:id="@+id/review_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/review_text"
-        android:layout_alignBottom="@+id/review_text"
-        android:layout_toRightOf="@+id/address"
-        android:text="10"
-        android:textColor="#009900"
-        android:textSize="14sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/review_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView2"
-        android:layout_marginLeft="19dp"
-        android:layout_toRightOf="@+id/review_count"
-        android:text="Reviews" />
 
 </RelativeLayout>
