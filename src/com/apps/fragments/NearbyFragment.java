@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,10 +20,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -58,6 +61,7 @@ public class NearbyFragment extends Fragment implements OnItemClickListener,OnCl
 	private View rootView;
 	private List<Nearbylist> myNearby= new ArrayList<Nearbylist>();
 	ListView listview;
+	Button showmore;
 	GPSTracker gps;
 
 	@Override
@@ -65,6 +69,12 @@ public class NearbyFragment extends Fragment implements OnItemClickListener,OnCl
 		rootView = inflater.inflate(R.layout.fragment_nearby_list, container, false);
 		listview =(ListView) rootView.findViewById(R.id.nearbyList);
 		progBar = (ProgressBar) rootView.findViewById(R.id.progBar);
+		Toast.makeText(getActivity(), "Please wait for a while", Toast.LENGTH_LONG).show();
+		showmore= (Button) rootView.findViewById(R.id.show_more);
+		
+		Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf"); 
+		showmore.setTypeface(font);
+
 		gps = new GPSTracker(getActivity());
 		//URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + new GPSTracker(getActivity()).getLatitude() +"," + new GPSTracker(getActivity()).getLongitude() +"&radius=500&types=restaurant&key=AIzaSyCe07HODubxXpJWTCpgWTlBFkRMBwrsPj4";
         URL = "http://api.bhojnama.com/api/nearby?longitude=" + gps.getLongitude() +"&latitude=" + gps.getLatitude() + "&page=1&limit=50";

@@ -12,6 +12,7 @@ public class SharedPref {
 	
 	private final String USER_ID = "user_id";
 	private final String LOG_IN_STATUS = "log_in_status";
+	private final String USER_TOKEN="user_token";
 	
 	public SharedPref(Context mContext) {
 		super();
@@ -36,6 +37,16 @@ public class SharedPref {
 	public void setLoginStatus(String status) {
 		spEditor = sharedPreferences.edit();
 		spEditor.putString(LOG_IN_STATUS, status);
+		spEditor.commit();
+	}
+	
+	public String getUserToken() {
+		return sharedPreferences.getString(USER_TOKEN, "");  
+	}
+	
+	public void setUserToken(String userToken) {
+		spEditor = sharedPreferences.edit();
+		spEditor.putString(USER_TOKEN, userToken);
 		spEditor.commit();
 	}
 	

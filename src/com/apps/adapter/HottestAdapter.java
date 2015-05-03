@@ -80,9 +80,15 @@ public class HottestAdapter extends BaseAdapter{
 			holder.txtViewDistance = (TextView) convertView.findViewById(R.id.txtViewDistance);
 			holder.txtViewLike = (TextView) convertView.findViewById(R.id.txtViewLike);
 			
+			holder.address=(TextView) convertView.findViewById(R.id.address);
 			holder.txtViewsCount= (TextView) convertView.findViewById(R.id.views);
 			holder.logo= (ImageView) convertView.findViewById(R.id.icon);
 			convertView.setTag(holder);
+			
+			/*BhojNamaSingleton.getInstance()
+						.getHottestInfoList().get(position).getCity()
+						+ ", "
+						+ BhojNamaSingleton.getInstance().getHottestInfoList().get(position).getArea()*/
 
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -112,7 +118,10 @@ public class HottestAdapter extends BaseAdapter{
 		holder.txtViewAddress.setText(BhojNamaSingleton.getInstance().getHottestInfoList().get(position).getOpeningHour());
 		holder.txtViewsCount.setText(Integer.toString(BhojNamaSingleton.getInstance().getHottestInfoList().get(position).getLikes()));
 		new AQuery(context).id(holder.logo).image(img_url + BhojNamaSingleton.getInstance().getHottestInfoList().get(position).getLogo(), true, true, 0, R.drawable.appicon);
-		
+		holder.address.setText(BhojNamaSingleton.getInstance()
+						.getHottestInfoList().get(position).getArea()
+						+ ", "
+						+ BhojNamaSingleton.getInstance().getHottestInfoList().get(position).getCity());
 		LatLng resLatLng = new LatLng(BhojNamaSingleton.getInstance().getHottestInfoList().get(position).getLat(), BhojNamaSingleton.getInstance().getHottestInfoList().get(position).getLon());
 		holder.txtViewDistance.setText(String.format("%.01f", getMiles(latLon, resLatLng)) + " KM ");
 		//holder.logo.setI
@@ -127,7 +136,7 @@ public class HottestAdapter extends BaseAdapter{
 		TextView txtViewStartDate;
 		TextView txtViewStartDay;
 		TextView txtViewsCount;
-		
+		TextView address;
 		TextView txtViewEndDate;
 		TextView txtViewEndDay;
 		

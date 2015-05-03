@@ -2,6 +2,7 @@ package com.apps.bhojnamainfo;
 
 import java.util.ArrayList;
 
+import com.apps.datamodel.FoodShotsCommentsInfo;
 import com.apps.datamodel.FoodShotsInfo;
 import com.apps.datamodel.HottestFoodItemInfo;
 import com.apps.datamodel.HottestInfo;
@@ -29,6 +30,7 @@ public class BhojNamaSingleton {
 	private ArrayList<ReviewInfo> arrayListReviewInfo;
 	private ArrayList<HottestFoodItemInfo> arrayListFoodInfo;
 	private ArrayList<NearbyResInfo> arrayListNearByResInfo;
+	private ArrayList<FoodShotsCommentsInfo>arrayListFoodShotComments;
 	
 	
 	
@@ -145,5 +147,16 @@ public class BhojNamaSingleton {
 	public void setArrayListNearByResInfo(ArrayList<NearbyResInfo> arrayListNearByResInfo) {
 		this.arrayListNearByResInfo = arrayListNearByResInfo;
 	}
+
+	public ArrayList<FoodShotsCommentsInfo> getArrayListFoodShotComments() {
+		return arrayListFoodShotComments;
+	}
+
+	public void setArrayListFoodShotComments(
+			ArrayList<FoodShotsCommentsInfo> arrayListFoodShotComments) {
+		this.arrayListFoodShotComments = arrayListFoodShotComments;
+	}
+
+	
 	
 }

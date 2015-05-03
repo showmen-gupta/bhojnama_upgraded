@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.json.JSONException;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -43,6 +44,7 @@ public class LocationFragment extends Fragment implements OnItemSelectedListener
 	private ArrayList<LocationAreaInfo> arrayListArea;
 	private int positionCity = 0;
 	private int positionArea = 0;
+	ProgressDialog progress;
 	public LocationFragment() {
 		
 	}
@@ -53,6 +55,11 @@ public class LocationFragment extends Fragment implements OnItemSelectedListener
 		initView();
 		setListener();
 		populateSpinnerList(ConstantValue.BASE_URL_LOCATION , LOAD_CITY);
+		
+	    progress = new ProgressDialog(getActivity());
+	    progress.setMessage("Please wait....");
+	    progress.show();
+	    
 		return rootView;
 	}
 	
@@ -141,6 +148,7 @@ public class LocationFragment extends Fragment implements OnItemSelectedListener
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    	progress.dismiss();
 	}
 
 	@Override

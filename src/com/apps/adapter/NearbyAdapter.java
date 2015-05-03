@@ -79,7 +79,7 @@ public class NearbyAdapter extends BaseAdapter{
 			holder.txtViewAddress = (TextView) convertView.findViewById(R.id.txt_view_address);
 			holder.txtViewDistance = (TextView) convertView.findViewById(R.id.txtViewDistance);
 			holder.txtViewLike = (TextView) convertView.findViewById(R.id.txtViewLike);
-			
+			holder.address=(TextView) convertView.findViewById(R.id.address);
 			holder.txtViewsCount= (TextView) convertView.findViewById(R.id.views);
 			holder.logo= (ImageView) convertView.findViewById(R.id.icon);
 			convertView.setTag(holder);
@@ -101,7 +101,9 @@ public class NearbyAdapter extends BaseAdapter{
 		holder.txtViewAddress.setText(nearInfo.get(position).getOpeningHour());
 		holder.txtViewsCount.setText(Integer.toString(nearInfo.get(position).getLikes()));
 		new AQuery(context).id(holder.logo).image(img_url +nearInfo.get(position).getLogo(), true, true, 0, R.drawable.appicon);
-		
+		holder.address.setText(nearInfo.get(position).getArea()
+						+ ", "
+						+nearInfo.get(position).getCity());
 		LatLng resLatLng = new LatLng(nearInfo.get(position).getLat(), nearInfo.get(position).getLon());
 		holder.txtViewDistance.setText(String.format("%.01f", getMiles(latLon, resLatLng)) + " KM ");
 		//holder.logo.setI
@@ -123,7 +125,7 @@ public class NearbyAdapter extends BaseAdapter{
 		TextView txtViewStartTime;
 		TextView txtViewEndTime;
 		TextView txtViewLike;
-		
+		TextView address;
 		TextView txtViewTo;
 		ImageView logo;
 		ImageView imgViewFavoriate;

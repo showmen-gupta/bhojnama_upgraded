@@ -70,6 +70,7 @@ public class NearbyMapDirectionActivity extends Activity implements OnClickListe
 		setContentView(R.layout.fragment_map);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		fb = new FacebookModule(this, savedInstanceState);
+		getActionBar().setTitle("Maps for direction");
 		//fb.facebookLogin();
         initViews();
         loadData();

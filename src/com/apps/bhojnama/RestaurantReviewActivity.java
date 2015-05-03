@@ -164,7 +164,7 @@ public class RestaurantReviewActivity extends Activity implements OnClickListene
 	@Override
 	public void onResume() {
 		super.onResume();
-		this.getActionBar().setTitle("Restaurant Details");
+		this.getActionBar().setTitle("Restaurant Reviews");
 		//getActivity().setTitle("Restaurant Details11");
 	}
 	

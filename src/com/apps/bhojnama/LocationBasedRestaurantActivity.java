@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ProgressBar;
 
@@ -48,6 +49,7 @@ public class LocationBasedRestaurantActivity extends Activity implements OnItemC
 		setContentView(R.layout.activity_hottest);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		this.getActionBar().setTitle("Restaurant Search List");
+		Toast.makeText(getApplicationContext(), "Please wait for a while", Toast.LENGTH_LONG).show();
 		intiView();
 		setListener();
 		loadData();
@@ -61,7 +63,7 @@ public class LocationBasedRestaurantActivity extends Activity implements OnItemC
 		GPSTracker gps = new GPSTracker(this);
 		LatLng clatLng = new LatLng(gps.getLatitude(), gps.getLongitude());
 	    hottestAdapter = new HottestAdapter(this, BhojNamaSingleton.getInstance().getHottestInfoList(), clatLng);
-		populatedRestaurantList(ConstantValue.BASE_URL_LOCATION + cityId + "/" + "area" + "/" + areaId + "/restaurants");
+		populatedRestaurantList(ConstantValue.BASE_URL_LOCATION + cityId + "/" + "area" + "/" + areaId + "/restaurants/?limit=" + 30 + "&page="+1);
 	}
 
 	private void setListener() {
@@ -88,6 +90,7 @@ public class LocationBasedRestaurantActivity extends Activity implements OnItemC
 						JsonParser.parseLocBasedRestaurant(response);
 						listview.setAdapter(hottestAdapter);
 						listview.onRefreshComplete();
+						
 						progBarHottestList.setVisibility(View.GONE);
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block

@@ -35,6 +35,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import com.apps.bhojnama.R;
+import com.apps.bhojnama.sharedpref.SharedPref;
 import com.apps.bhojnamainfo.BhojNamaSingleton;
 import com.apps.utility.ConstantValue;
 
@@ -42,7 +43,7 @@ public class SubmitReviewActivity extends Activity implements OnClickListener {
 	
 	EditText title, description;
 	Button submit;
-	private int position;
+	private int position,list_position;
 	String timeStamp = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 
 	public SubmitReviewActivity() {};
@@ -66,6 +67,7 @@ public class SubmitReviewActivity extends Activity implements OnClickListener {
 		description= (EditText) findViewById(R.id.description);
 		submit= (Button) findViewById(R.id.submit);
 		position  = getIntent().getExtras().getInt("position");
+		list_position=getIntent().getExtras().getInt("list_position");
 		
 	}
 
@@ -85,16 +87,28 @@ public class SubmitReviewActivity extends Activity implements OnClickListener {
 	ProgressDialog progress;
 	
 	private void postReview() {
-		Log.e("res_id", ""+BhojNamaSingleton.getInstance().getHottestInfoList().get(position).getRestaurantId());
+		Log.e("res_id", ""+BhojNamaSingleton.getInstance().getHottestInfoList().get(list_position).getRestaurantId());
 		Log.e("time", timeStamp);
 		RequestQueue queue = Volley.newRequestQueue(SubmitReviewActivity.this);
-		StringRequest myReq = new StringRequest(Method.POST, ConstantValue.BASE_URL_USER_REVIEW + BhojNamaSingleton.getInstance().getHottestInfoList().get(position).getRestaurantId() + "/review" , createMyReqSuccessListener(), createMyReqErrorListener()) {
+		final SharedPref sharedPref = new SharedPref(this);
+		Log.e("user_id", ""+sharedPref.getUserID());
+		Log.e("token",""+sharedPref.getUserToken());
+		
+		if(title.getText().toString().matches("") && description.getText().toString().matches("")){
+			Toast.makeText(SubmitReviewActivity.this, "fields can't be empty", Toast.LENGTH_SHORT).show();	
+			
+		}
+		else{
+		StringRequest myReq = new StringRequest(Method.POST, ConstantValue.BASE_URL_USER_REVIEW + BhojNamaSingleton.getInstance().getHottestInfoList().get(list_position).getRestaurantId() + "/review" , createMyReqSuccessListener(), createMyReqErrorListener()) {
 			protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
 				Map<String, String> params = new HashMap<String, String>();
+				
 				params.put("Content-Type", "application/json; charset=utf-8");
 				params.put("title", title.getText().toString().trim());
 				params.put("detail", description.getText().toString().trim());
 				params.put("published_on", timeStamp);
+				params.put("user_id", sharedPref.getUserID());
+				params.put("token", sharedPref.getUserToken());
 				params.put("status", "1");
 				
 //				params.put("Content-Type", "application/json; charset=utf-8");
@@ -105,6 +119,7 @@ public class SubmitReviewActivity extends Activity implements OnClickListener {
 				return params;
 			};
 		};
+		
         
         int socketTimeout = 30000;//30 seconds - change to what you want
     	RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
@@ -114,7 +129,7 @@ public class SubmitReviewActivity extends Activity implements OnClickListener {
         progress = new ProgressDialog(SubmitReviewActivity.this);
         progress.setMessage("Please wait....");
         progress.show();
-		
+		}
 	}
 	
 	private ErrorListener createMyReqErrorListener() {

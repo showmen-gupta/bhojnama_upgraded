@@ -120,7 +120,7 @@ public class NearbyRestaurantReviewActivity extends Activity implements OnClickL
 				
 				startActivity(intent);
 			} else {
-				Intent intent = new Intent(this, SubmitReviewActivity.class);
+				Intent intent = new Intent(this, SubmitNearByReviewActivity.class);
 				intent.putExtra("position", position);
 				intent.putExtra("list_position", list_position);
 				startActivity(intent);
@@ -138,7 +138,7 @@ public class NearbyRestaurantReviewActivity extends Activity implements OnClickL
 	@Override
 	public void onResume() {
 		super.onResume();
-		this.getActionBar().setTitle("Restaurant Details");
+		this.getActionBar().setTitle("Restaurant Reviews");
 		//getActivity().setTitle("Restaurant Details11");
 	}
 	

@@ -19,6 +19,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -71,6 +72,8 @@ public class HottestFragment extends Fragment implements OnItemClickListener{
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_hottest, container, false);
+		Toast.makeText(getActivity(), "Please wait for a while", Toast.LENGTH_SHORT).show();
+
         Log.i("Hootest onCreate", "ok....");
         initView(rootView);
         loadData();

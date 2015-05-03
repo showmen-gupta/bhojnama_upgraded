@@ -8,6 +8,7 @@ public class UserInfo {
 	private String email;
 	private String message;
 	private int status;
+	private String user_token;
 	
 	public int getID() {
 		return ID;
@@ -44,6 +45,12 @@ public class UserInfo {
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public String getUser_token() {
+		return user_token;
+	}
+	public void setUser_token(String user_token) {
+		this.user_token = user_token;
 	}
 	
 

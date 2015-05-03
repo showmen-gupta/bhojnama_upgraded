@@ -23,6 +23,7 @@ import com.apps.adapter.HottestFoodItemAdapter;
 import com.apps.adapter.NearByResFoodItemAdapter;
 import com.apps.bhojnama.LogInActivity;
 import com.apps.bhojnama.NearbyMapDirectionActivity;
+import com.apps.bhojnama.NearbyResMapDirectionActivity;
 import com.apps.bhojnama.NearbyRestaurantReviewActivity;
 import com.apps.bhojnama.R;
 import com.apps.bhojnama.RestaurantReviewActivity;
@@ -45,7 +46,7 @@ public class NearByResDetailsFragment extends Fragment implements OnClickListene
 	private ListView foodList;
 	private ImageView imgViewLogo;
 	private Button btnGetMeThere, btnBookTable, btnSubmitReview;
-	private TextView txtRestaurantName, txtRestaurantAddress, txtViewDetails,txtViewsCount;
+	private TextView txtRestaurantName, txtRestaurantAddress, txtViewDetails,txtViewsCount,address;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,7 +78,7 @@ public class NearByResDetailsFragment extends Fragment implements OnClickListene
 		txtRestaurantName.setText(BhojNamaSingleton.getInstance().getArrayListNearByResInfo().get(position).getRestaurantName());
 		txtRestaurantAddress.setText(BhojNamaSingleton.getInstance().getArrayListNearByResInfo().get(position).getOpeningHour());
 		txtViewsCount.setText(Integer.toString(BhojNamaSingleton.getInstance().getArrayListNearByResInfo().get(position).getLikes()));
-		
+		address.setText(BhojNamaSingleton.getInstance().getArrayListNearByResInfo().get(position).getArea()+","+BhojNamaSingleton.getInstance().getArrayListNearByResInfo().get(position).getCity());
 		String img_url="http://api.bhojnama.com/";
 		new AQuery(getActivity()).id(imgViewLogo).image(img_url+BhojNamaSingleton.getInstance().getArrayListNearByResInfo().get(position).getLogo(), true, true, 0, R.drawable.appicon);
 		
@@ -89,6 +90,7 @@ public class NearByResDetailsFragment extends Fragment implements OnClickListene
 		txtRestaurantName = (TextView) headerView.findViewById(R.id.txt_view_restaurant_name);
 		txtRestaurantAddress = (TextView) headerView.findViewById(R.id.txt_view_address);
 		txtViewsCount= (TextView) headerView.findViewById(R.id.textView4);
+		address= (TextView) headerView.findViewById(R.id.address);
 		foodList = (ListView) rootView.findViewById(R.id.food_list);
 		foodList.addHeaderView(headerView);
 		
@@ -121,7 +123,7 @@ public class NearByResDetailsFragment extends Fragment implements OnClickListene
 		if (v.getId() == R.id.btn_make_food_shots) {
 			
 		} else if (v.getId() == R.id.btn_get_me_there) {
-			Intent intent = new Intent(getActivity(), NearbyMapDirectionActivity.class);
+			Intent intent = new Intent(getActivity(), NearbyResMapDirectionActivity.class);
 			intent.putExtra("list_position", getArguments().getInt("position"));
 			intent.putExtra("view_type", "hottest");
 			startActivity(intent);

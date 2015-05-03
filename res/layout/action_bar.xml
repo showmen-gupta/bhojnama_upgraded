@@ -22,7 +22,7 @@
         android:layout_centerVertical="true"
         android:text="bhojnama"
         android:textColor="#ffffff"
-        android:textSize="25sp"
+        android:textSize="30sp"
         android:textStyle="bold" />
 
 </RelativeLayout>

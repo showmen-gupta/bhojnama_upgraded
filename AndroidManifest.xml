@@ -105,6 +105,18 @@
             android:name="com.apps.bhojnama.NearbyRestaurantReviewActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.apps.bhojnama.NearbyResMapDirectionActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.apps.bhojnama.SubmitNearByReviewActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.apps.bhojnama.BookATableActivity"
+            android:screenOrientation="portrait" >
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"

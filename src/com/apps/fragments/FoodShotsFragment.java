@@ -72,7 +72,7 @@ public class FoodShotsFragment extends Fragment implements OnClickListener, OnIt
 		
 		initView(view);
 		setListener();
-		loadData(50, 1);
+		loadData(30, 1);
 		return view;
 	}
 

@@ -141,6 +141,8 @@ public class LogInActivity   extends Activity implements OnClickListener {
 					if (status == 1) {
 						MainActivity.isLogin = true;
 						sharedPref.setLoginStatus("1");
+						sharedPref.setUserID(Integer.toString(BhojNamaSingleton.getInstance().getUserInfo().getID()));
+						sharedPref.setUserToken(BhojNamaSingleton.getInstance().getUserInfo().getUser_token());
 						
 						if(fragment_no == 2) {
 							Intent intent = new Intent(LogInActivity.this, SubmitReviewActivity.class);

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.json.JSONException;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,7 +43,7 @@ public class BooktableFragment extends Fragment implements OnItemSelectedListene
 	ArrayList<BranchInfo> branchArrayList;
 	private static int LOAD_RESTAURANT = 1;
 	private static int LOAD_BRANCH = 2;
-
+	ProgressDialog progress;
 	public BooktableFragment() {
 
 	}
@@ -60,7 +61,10 @@ public class BooktableFragment extends Fragment implements OnItemSelectedListene
 		
 		call= (Button) rootView.findViewById(R.id.call);
 		call.setOnClickListener(this);
-		
+        progress = new ProgressDialog(getActivity());
+        progress.setMessage("Please wait....");
+        progress.show();
+        
 		rootView.setFocusableInTouchMode(true);
 		rootView.requestFocus();
 		backListener();
@@ -68,14 +72,18 @@ public class BooktableFragment extends Fragment implements OnItemSelectedListene
 		return rootView;
 	}
 	
+	
 	private void populateSpinnerList(String URL, final int list_type) {
 		RequestQueue queue = Volley.newRequestQueue(getActivity());
     	
     	String url = URL;
+
     	StringRequest dr = new StringRequest(Request.Method.GET, url, 
     	    new Response.Listener<String>() {
     	        @Override
     	        public void onResponse(String response) {
+    	    		
+
     	        	try {
     	        		if (list_type == LOAD_RESTAURANT) {
         	        		loadRestaurantInfo(response);
@@ -85,6 +93,8 @@ public class BooktableFragment extends Fragment implements OnItemSelectedListene
     	        	} catch (Exception e) {
     	        		
     	        	}
+    	        	
+
     	           
     	        }
     	    }, 
@@ -102,9 +112,9 @@ public class BooktableFragment extends Fragment implements OnItemSelectedListene
     	dr.setRetryPolicy(policy);
     	queue.add(dr);
 	}
-	
 	private void loadBranch(String response) {
 		//final Spinner spinner = (Spinner)rootView.findViewById(R.id.choose_branch);
+  
     	try {
     		branchArrayList = new ArrayList<BranchInfo>();
     		branchArrayList = JsonParser.parseBranchList(response);
@@ -121,10 +131,13 @@ public class BooktableFragment extends Fragment implements OnItemSelectedListene
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+        
 	}
 	
 	protected void loadRestaurantInfo(String response) {
-		
+
+      
     	try {
     		restaurantArrayList = new ArrayList<RestaurantInfo>();
     		restaurantArrayList = JsonParser.parseRestaurantList(response);
@@ -139,6 +152,7 @@ public class BooktableFragment extends Fragment implements OnItemSelectedListene
     	} catch (JSONException e) {
 			e.printStackTrace();
 		}
+    	progress.dismiss();
 	}
 	
 	private void backListener() {

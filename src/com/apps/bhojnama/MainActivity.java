@@ -85,7 +85,9 @@ public class MainActivity extends Activity {
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+		mDrawerLayout.openDrawer(Gravity.START);
 
+	
 		// Add Drawer Item to dataList
 		dataList.add(new DrawerItem(true)); // adding a spinner to the list
 
@@ -192,7 +194,7 @@ public class MainActivity extends Activity {
 		lp.width = LayoutParams.MATCH_PARENT;
 		v.setLayoutParams(lp);
 		
-		Typeface type = Typeface.createFromAsset(getAssets(),"fonts/OpenSans-Light.ttf"); 
+		Typeface type = Typeface.createFromAsset(getAssets(),"fonts/OPAL.TTF"); 
 		TextView txtyour= (TextView) findViewById(R.id.mytext);
 		txtyour.setTypeface(type);
 	

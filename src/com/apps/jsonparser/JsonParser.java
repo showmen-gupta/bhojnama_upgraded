@@ -81,7 +81,7 @@ public class JsonParser {
 					Log.e("Restaurant Price", "-----" + itemArray.getJSONObject(j2).getString("price"));
 					hotFoodItem.setFoodItemId(itemArray.getJSONObject(j2).getInt("id"));
 					hotFoodItem.setFoodTitle(itemArray.getJSONObject(j2).getString("title"));
-					hotFoodItem.setDescription(itemArray.getJSONObject(j2).getString("description"));
+					hotFoodItem.setDescription(itemArray.getJSONObject(j2).getString("description").trim());
 					hotFoodItem.setPrice(itemArray.getJSONObject(j2).getString("price"));
 					listHottestItem.add(hotFoodItem);
 				}
@@ -92,9 +92,8 @@ public class JsonParser {
 					hottestInfo.setBranchId(branchArray.getJSONObject(j).getInt("id"));
 					hottestInfo.setIsOpen(branchArray.getJSONObject(j).getInt("is_open"));
 					hottestInfo.setOpeningHour(branchArray.getJSONObject(j).getString("opening_hour"));
-					hottestInfo.setCity(branchArray.getJSONObject(j).getString("city"));
-					
-					hottestInfo.setArea(branchArray.getJSONObject(j).getString("area"));
+					hottestInfo.setCity(branchArray.getJSONObject(j).getJSONObject("city").getString("name"));
+					hottestInfo.setArea(branchArray.getJSONObject(j).getJSONObject("area").getString("name"));
 					hottestInfo.setLat(branchArray.getJSONObject(j).getDouble("latitude"));
 					hottestInfo.setLon(branchArray.getJSONObject(j).getDouble("longitude"));
 				}
@@ -112,7 +111,6 @@ public class JsonParser {
 	
 	public static void parseLocBasedRestaurant(String response) throws JSONException {
 		String logindata;
-		ArrayList<HottestFoodItemInfo> listHottestItem = new ArrayList<HottestFoodItemInfo>();
 		
 		JSONObject jDataObj = new JSONObject(response);
 		logindata = jDataObj.getString("data");
@@ -122,38 +120,51 @@ public class JsonParser {
 		int resultSize = jsonResultArray.length();
 		
 		for (int i = 0; i < resultSize; i++) {
+			ArrayList<HottestFoodItemInfo> listHottestItem = new ArrayList<HottestFoodItemInfo>();
 			HottestInfo hottestInfo = new HottestInfo();
-			hottestInfo.setRestaurantId(jsonResultArray.getJSONObject(i).getInt("id"));
-			hottestInfo.setRestaurantName(jsonResultArray.getJSONObject(i).getString("name"));
-			hottestInfo.setRestaurantAbout(jsonResultArray.getJSONObject(i).getString("about"));
-			
-			hottestInfo.setLogo(jsonResultArray.getJSONObject(i).getString("logo"));
-			hottestInfo.setHottest(jsonResultArray.getJSONObject(i).getInt("hottest"));
-			hottestInfo.setLikes(jsonResultArray.getJSONObject(i).getInt("likes"));
-			
-			JSONObject branchArray = jsonResultArray.getJSONObject(i).getJSONObject("branch");
-			
-			int brachSize = branchArray.length();
-			
-			for (int j = 0; j < brachSize; j++) {
-				hottestInfo.setBranchId(branchArray.getInt("id"));
-				hottestInfo.setIsOpen(branchArray.getInt("is_open"));
-				hottestInfo.setCity(branchArray.getString("city"));
-				hottestInfo.setOpeningHour(branchArray.getString("opening_hour"));
-				hottestInfo.setArea(branchArray.getString("area"));
-				hottestInfo.setLat(branchArray.getDouble("latitude"));
-				hottestInfo.setLon(branchArray.getDouble("longitude"));
+			//if(jsonResultArray.getJSONObject(i).getInt("hottest")==1){
+				hottestInfo.setRestaurantId(jsonResultArray.getJSONObject(i).getInt("id"));
+				hottestInfo.setRestaurantName(jsonResultArray.getJSONObject(i).getString("name"));
+				hottestInfo.setRestaurantAbout(jsonResultArray.getJSONObject(i).getString("about"));
 				
-			}
-			
-			hottestInfo.setHottestFoodItemList(listHottestItem);
-			BhojNamaSingleton.getInstance().getHottestInfoList().add(hottestInfo);
-			
+				hottestInfo.setLogo(jsonResultArray.getJSONObject(i).getString("logo"));
+				
+				hottestInfo.setLikes(jsonResultArray.getJSONObject(i).getInt("likes"));
+				
+				JSONArray branchArray = jsonResultArray.getJSONObject(i).getJSONArray("branches");
+				
+				JSONArray itemArray = jsonResultArray.getJSONObject(i).getJSONArray("items");
+				
+				int itemSize = itemArray.length();
+				for (int j2 = 0; j2 < itemSize; j2++) {
+					
+					HottestFoodItemInfo hotFoodItem = new HottestFoodItemInfo();
+					Log.e("Restaurant Price", "-----" + itemArray.getJSONObject(j2).getString("price"));
+					hotFoodItem.setFoodItemId(itemArray.getJSONObject(j2).getInt("id"));
+					hotFoodItem.setFoodTitle(itemArray.getJSONObject(j2).getString("title"));
+					hotFoodItem.setDescription(itemArray.getJSONObject(j2).getString("description").trim());
+					hotFoodItem.setPrice(itemArray.getJSONObject(j2).getString("price"));
+					listHottestItem.add(hotFoodItem);
+				}
+				
+				int brachSize = jsonResultArray.getJSONObject(i).getJSONArray("branches").length();
+				for (int j = 0; j < brachSize; j++) {
+					Log.e("Restaurant Branch HOT", "-----" + branchArray.getJSONObject(j).getString("city"));
+					hottestInfo.setBranchId(branchArray.getJSONObject(j).getInt("id"));
+					hottestInfo.setLat(branchArray.getJSONObject(j).getDouble("latitude"));
+					hottestInfo.setLon(branchArray.getJSONObject(j).getDouble("longitude"));
+					hottestInfo.setOpeningHour(branchArray.getJSONObject(j).getString("opening_hour"));
+					hottestInfo.setIsOpen(branchArray.getJSONObject(j).getInt("is_open"));
+					hottestInfo.setCity(branchArray.getJSONObject(j).getJSONObject("city").getString("name"));
+					hottestInfo.setArea(branchArray.getJSONObject(j).getJSONObject("area").getString("name"));
+
+				}
+				
+				hottestInfo.setHottestFoodItemList(listHottestItem);
+				//listHottestInfo.add(hottestInfo);
+				BhojNamaSingleton.getInstance().getHottestInfoList().add(hottestInfo);
+			//}
 		}
-		
-		//BhojNamaSingleton.getInstance().getHottestInfoList().add;
-		//BhojNamaSingleton.getInstance().setArrayListNearByInfo(listNearByInfo);
-		Log.e("****"," ===== " + logindata + " size= " + jsonResultArray.length()); 
 		
 	}
 	
@@ -182,7 +193,8 @@ public class JsonParser {
 			
 			JSONArray jsonArrayPhotos = jsonArray.getJSONObject(i).getJSONArray("photos");
 			int photosArraySize = jsonArrayPhotos.length();
-			for (int j = 0; j < photosArraySize; j++) {
+			for (int j2 = 0; j2 < photosArraySize; j2++) {
+				foodShotsInfo.setPhotUrl(jsonArrayPhotos.getJSONObject(j2).getString("url"));
 			}
 			
 			JSONArray jsonArrayComments = jsonArray.getJSONObject(i).getJSONArray("comments");
@@ -251,9 +263,11 @@ public class JsonParser {
 		JSONObject jsonObject = jsonDataObject.getJSONObject("user");
 		
 		UserInfo userInfo = new UserInfo();
+		userInfo.setID(jsonObject.getInt("id"));
 		userInfo.setName(jsonObject.getString("name"));
 		userInfo.setUsername(jsonObject.getString("username"));
 		userInfo.setEmail(jsonObject.getString("email"));
+		userInfo.setUser_token(jsonObject.getString("token"));
 		userInfo.setMessage(jsonDataObject.getString("message"));
 		userInfo.setStatus(jsonData.getInt("status"));
 		
@@ -470,9 +484,9 @@ public class JsonParser {
 					nearInfo.setBranchId(branchArray.getJSONObject(j).getInt("id"));
 					nearInfo.setIsOpen(branchArray.getJSONObject(j).getInt("is_open"));
 					nearInfo.setOpeningHour(branchArray.getJSONObject(j).getString("opening_hour"));
-					nearInfo.setCity(branchArray.getJSONObject(j).getString("city"));
+					nearInfo.setCity(branchArray.getJSONObject(j).getJSONObject("city").getString("name"));
 					
-					nearInfo.setArea(branchArray.getJSONObject(j).getString("area"));
+					nearInfo.setArea(branchArray.getJSONObject(j).getJSONObject("area").getString("name"));
 					nearInfo.setLat(branchArray.getJSONObject(j).getDouble("latitude"));
 					nearInfo.setLon(branchArray.getJSONObject(j).getDouble("longitude"));
 				}

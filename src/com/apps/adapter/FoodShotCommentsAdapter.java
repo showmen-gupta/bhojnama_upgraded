@@ -77,6 +77,7 @@ public class FoodShotCommentsAdapter extends BaseAdapter {
 	static class ViewHolder {
 		TextView txtViewCommentDetails;
 		TextView txtViewAuthor;
+		
 		TextView txtViewDescription;
 		TextView txtViewStartDate;
 		TextView txtViewStartDay;

@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.androidquery.AQuery;
 import com.apps.bhojnama.R;
 import com.apps.bhojnamainfo.BhojNamaSingleton;
 import com.apps.datamodel.FoodShotsInfo;
@@ -78,10 +79,10 @@ public class FoodShotsAdapter extends BaseAdapter {
 		holder.viewPager.setPageMargin(5);
 		holder.viewPager.setClipChildren(false);
 		*/
-		
+		String img_url="http://api.bhojnama.com";
 		Log.e("FOOD DETAILS", "#####" + BhojNamaSingleton.getInstance().getArrayListFoodShots().get(position).getFoodShotDetails());
 		holder.txtViewFoodShotDetails.setText(BhojNamaSingleton.getInstance().getArrayListFoodShots().get(position).getFoodShotName().trim());
-		
+		new AQuery(context).id(holder.imgViewShots).image(img_url + BhojNamaSingleton.getInstance().getArrayListFoodShots().get(position).getPhotUrl(), true, true, 0, R.drawable.demo_food);
 		return convertView;
 	}
 

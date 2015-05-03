@@ -43,7 +43,7 @@ public class RestaurantDetailsFragment extends Fragment implements OnClickListen
 	private ListView foodList;
 	private ImageView imgViewLogo;
 	private Button btnGetMeThere, btnBookTable, btnSubmitReview;
-	private TextView txtRestaurantName, txtRestaurantAddress, txtViewDetails,txtViewsCount;
+	private TextView txtRestaurantName, txtRestaurantAddress, txtViewDetails,txtViewsCount,address;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,7 +75,11 @@ public class RestaurantDetailsFragment extends Fragment implements OnClickListen
 		txtRestaurantName.setText(BhojNamaSingleton.getInstance().getHottestInfoList().get(getArguments().getInt("position")).getRestaurantName());
 		txtRestaurantAddress.setText(BhojNamaSingleton.getInstance().getHottestInfoList().get(getArguments().getInt("position")).getOpeningHour());
 		txtViewsCount.setText(Integer.toString(BhojNamaSingleton.getInstance().getHottestInfoList().get(getArguments().getInt("position")).getLikes()));
-		
+		address.setText(BhojNamaSingleton.getInstance()
+						.getHottestInfoList().get(getArguments().getInt("position")).getArea()
+						+ ", "
+						+ BhojNamaSingleton.getInstance()
+						.getHottestInfoList().get(getArguments().getInt("position")).getCity());
 		String img_url="http://api.bhojnama.com/";
 		new AQuery(getActivity()).id(imgViewLogo).image(img_url+BhojNamaSingleton.getInstance().getHottestInfoList().get(getArguments().getInt("position")).getLogo(), true, true, 0, R.drawable.appicon);
 		
@@ -87,6 +91,7 @@ public class RestaurantDetailsFragment extends Fragment implements OnClickListen
 		txtRestaurantName = (TextView) headerView.findViewById(R.id.txt_view_restaurant_name);
 		txtRestaurantAddress = (TextView) headerView.findViewById(R.id.txt_view_address);
 		txtViewsCount= (TextView) headerView.findViewById(R.id.textView4);
+		address= (TextView) headerView.findViewById(R.id.address);
 		foodList = (ListView) rootView.findViewById(R.id.food_list);
 		foodList.addHeaderView(headerView);
 		
@@ -150,7 +155,7 @@ public class RestaurantDetailsFragment extends Fragment implements OnClickListen
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		  Fragment fragment = null;
+/*		  Fragment fragment = null;
 		  Bundle args = new Bundle();
 		  
 		  args.putInt("base_position", getArguments().getInt("position"));
@@ -163,7 +168,7 @@ public class RestaurantDetailsFragment extends Fragment implements OnClickListen
 		  ft.add(R.id.content_frame, fragment);
 		  ft.addToBackStack(null);
 		  ft.commit();
-		  getActivity().setTitle("Food Item Deatils");
+		  getActivity().setTitle("Food Item Deatils");*/
 		
 	}
 

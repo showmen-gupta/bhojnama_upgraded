@@ -1,6 +1,5 @@
 package com.apps.jsonparser;
 
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
@@ -17,12 +16,15 @@ import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
+import com.apps.bhojnama.PostFoodShotsActivity;
 import com.apps.utility.ConstantValue;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 public class UploadImageAsyncTask extends AsyncTask<String, Void, Void> {
 
@@ -31,10 +33,11 @@ public class UploadImageAsyncTask extends AsyncTask<String, Void, Void> {
 	private OnImageUploadComplete callback;
 	private int responseStatus;
 	boolean isClassified = false;
-	private String uploadedPhotoName = ""; 
+	private String uploadedPhotoName = "";
 	private String thisdata = "";
 
-	public UploadImageAsyncTask(Activity x, OnImageUploadComplete callback2, boolean isClassified) {
+	public UploadImageAsyncTask(Activity x, OnImageUploadComplete callback2,
+			boolean isClassified) {
 		this.activity = x;
 		this.callback = (OnImageUploadComplete) callback2;
 		this.isClassified = isClassified;
@@ -48,50 +51,61 @@ public class UploadImageAsyncTask extends AsyncTask<String, Void, Void> {
 	@Override
 	protected Void doInBackground(String... params) {
 		Log.i("Food Shot review", "****" + params);
-			try {
-				HttpClient httpclient = new DefaultHttpClient();
-				HttpPost httppost = new HttpPost(ConstantValue.BASE_URL);
+
+		try {
+			HttpClient httpclient = new DefaultHttpClient();
+			HttpPost httppost = new HttpPost(ConstantValue.BASE_URL);
+
+			MultipartEntity reqEntry = new MultipartEntity(
+					HttpMultipartMode.BROWSER_COMPATIBLE);
 	
-				MultipartEntity reqEntry = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-				
-				FileBody bin = new FileBody(new File(params[2]), "image/jpeg");
-				
+				FileBody bin = new FileBody(new File(params[2]));
+				Log.e("image_bin", "" + bin);
+
 				reqEntry.addPart("title", new StringBody(params[0]));
 				reqEntry.addPart("detail", new StringBody(params[1]));
-				reqEntry.addPart("published_on", new StringBody("2015-02-01 02:05:10"));
-				
-				//reqEntry.addPart("photos", bin);
-				reqEntry.addPart("user_id", new StringBody("1"));
-				reqEntry.addPart("status", new StringBody("1"));
-				reqEntry.addPart("taken-on", new StringBody("2015-02-01 02:05:10"));
+				reqEntry.addPart("taken_on", new StringBody(params[3]));
+
+				reqEntry.addPart("image", bin);
+				reqEntry.addPart("user_id", new StringBody(params[4]));
+				reqEntry.addPart("token", new StringBody(params[5]));
+				reqEntry.addPart("image_title", new StringBody(
+						"Food Shot Image"));
+				reqEntry.addPart("image_description", new StringBody(
+						"Food Shot Description"));
 
 				httppost.setEntity(reqEntry);
-	
+
 				HttpResponse response = httpclient.execute(httppost);
 				HttpEntity resEntity = response.getEntity();
-	
+
 				InputStream is = resEntity.getContent();
-				BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-	
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(is, "iso-8859-1"), 8);
+
 				StringBuilder sb = new StringBuilder();
 				String line = null;
-	
+
 				while ((line = reader.readLine()) != null) {
 					sb.append(line);
 				}
-	
+
 				is.close();
 				thisdata = sb.toString().trim();
-				
+
 				Log.i("Photo Uplaod Response", "*****" + thisdata);
-				/*JSONObject jDataObj = new JSONObject(thisdata);
-				responseStatus = jDataObj.getInt("status");
-				JSONObject jDataPhoto = jDataObj.getJSONObject("data");
-				uploadedPhotoName = jDataPhoto.getString("photo_name");*/
-			} catch (Exception ex) {
-				return null;
-			}
+			
+			/*
+			 * JSONObject jDataObj = new JSONObject(thisdata); responseStatus =
+			 * jDataObj.getInt("status"); JSONObject jDataPhoto =
+			 * jDataObj.getJSONObject("data"); uploadedPhotoName =
+			 * jDataPhoto.getString("photo_name");
+			 */
+		} catch (Exception ex) {
+			return null;
+		}
 		return null;
+
 	}
 
 	@Override
@@ -99,8 +113,7 @@ public class UploadImageAsyncTask extends AsyncTask<String, Void, Void> {
 		super.onPostExecute(result);
 		Log.e("uploaded photo name", uploadedPhotoName);
 		callback.OnResponse(thisdata);
-		
-	}
-	
-}
 
+	}
+
+}
