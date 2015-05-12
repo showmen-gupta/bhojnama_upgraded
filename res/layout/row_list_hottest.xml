@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/txt_view_restaurant_name"
-            android:layout_marginRight="17dp"
+            android:layout_marginRight="12dp"
             android:text="1 Miles"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -59,12 +59,12 @@
             android:id="@+id/views"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/relativeLayout1"
-            android:layout_toRightOf="@+id/relativeLayout1"
+            android:layout_alignTop="@+id/like_button"
+            android:layout_toRightOf="@+id/like_button"
             android:text="1,000"
-            android:layout_marginTop="25dp"
             android:textColor="#009900"
             android:textSize="14sp"
+            android:layout_marginLeft="25dp"
             android:textStyle="bold" />
 
         <TextView
@@ -74,6 +74,7 @@
             android:layout_alignBaseline="@+id/views"
             android:layout_alignBottom="@+id/views"
             android:layout_marginLeft="17dp"
+             android:layout_alignTop="@+id/like_button"
             android:layout_toRightOf="@+id/views"
             android:text="Likes "
             android:textSize="15sp" />
@@ -114,6 +115,7 @@
             android:layout_marginRight="9dp"
             android:layout_alignBottom="@+id/relativeLayout1"
             android:layout_alignRight="@+id/txtViewDistance"
+            android:layout_below="@+id/txtViewDistance"
             android:src="@drawable/location_icon" />
 
         <ImageView
@@ -121,7 +123,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/views"
-            android:layout_below="@+id/relativeLayout1"
+            android:layout_below="@+id/txt_view_address"
             android:layout_marginTop="15dp"
             android:src="@drawable/menu_seprator" />
 
@@ -132,7 +134,9 @@
             android:layout_alignBaseline="@+id/txtViewLike"
             android:layout_alignBottom="@+id/txtViewLike"
             android:layout_toRightOf="@+id/opening_hour"
+             android:layout_alignTop="@+id/like_button"
             android:text="10"
+            android:layout_marginLeft="10dp"
             android:textColor="#009900"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -143,9 +147,22 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="22dp"
             android:layout_alignBaseline="@+id/review_count"
+             android:layout_alignTop="@+id/like_button"
             android:layout_alignBottom="@+id/review_count"
             android:layout_toRightOf="@+id/txt_view_address"
             android:text="Reviews" />
+
+        <Button
+            android:id="@+id/like_button"
+            android:layout_width="30dp"
+            android:layout_height="28dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/like_normal_1"
+            android:layout_below="@+id/imageView2"
+            android:focusable="false"
+            android:layout_marginLeft="10dp"
+            android:focusableInTouchMode="false" />
 
     </RelativeLayout>
 

@@ -1,18 +1,12 @@
 package com.apps.bhojnama;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
-import android.widget.Toast;
+
+import com.apps.utility.InternetCheck;
 
 
 public class SplashActivity extends Activity {
@@ -21,24 +15,11 @@ public class SplashActivity extends Activity {
 	protected void onCreate(Bundle splash) {
 		// TODO Auto-generated method stub
 		super.onCreate(splash);
-
-		try {
-	        PackageInfo info = getPackageManager().getPackageInfo(
-	                "Your package name", 
-	                PackageManager.GET_SIGNATURES);
-	        for (Signature signature : info.signatures) {
-	            MessageDigest md = MessageDigest.getInstance("SHA");
-	            md.update(signature.toByteArray());
-	            Log.e("Your Tag", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-	            
-	            Toast.makeText(this, "*** " + Base64.encodeToString(md.digest(), Base64.DEFAULT) , Toast.LENGTH_LONG).show();
-	            }
-	    } catch (NameNotFoundException e) {
-
-	    } catch (NoSuchAlgorithmException e) {
-
-	    }
 		setContentView(R.layout.splash);
+		if (!InternetCheck.isNetworkConnected(this)) {
+			showDialog();
+			return;
+		}
 
 		Thread timer = new Thread() {
 			public void run() {
@@ -55,6 +36,41 @@ public class SplashActivity extends Activity {
 			}
 		};
 		timer.start();
+	}
+
+	private void showDialog() {
+		AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(this);
+
+		// Setting Dialog Title
+		alertDialog2.setTitle("Message");
+
+		// Setting Dialog Message
+		alertDialog2.setMessage("Please check your internet connection");
+
+		// Setting Icon to Dialog
+		alertDialog2.setIcon(R.drawable.ic_launcher);
+
+		// Setting Positive "Yes" Btn
+		alertDialog2.setPositiveButton("OK",
+		        new DialogInterface.OnClickListener() {
+		            public void onClick(DialogInterface dialog, int which) {
+		            	dialog.cancel();
+		            	finish();// Write your code here to execute after dialog
+		               // Toast.makeText(getApplicationContext(),"You clicked on YES", Toast.LENGTH_SHORT).show();
+		            }
+		        });
+		// Setting Negative "NO" Btn
+		/*alertDialog2.setNegativeButton("NO",
+		        new DialogInterface.OnClickListener() {
+		            public void onClick(DialogInterface dialog, int which) {
+		                // Write your code here to execute after dialog
+		                Toast.makeText(getApplicationContext(),"You clicked on NO", Toast.LENGTH_SHORT).show();
+		                dialog.cancel();
+		            }
+		        });*/
+
+		// Showing Alert Dialog
+		alertDialog2.show();
 	}
 
 }

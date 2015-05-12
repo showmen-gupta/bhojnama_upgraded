@@ -200,6 +200,7 @@ public class RestaurantReviewActivity extends Activity implements OnClickListene
     	         @Override
     	         public void onErrorResponse(VolleyError error) {
     	             // error.
+    	        	 Toast.makeText(RestaurantReviewActivity.this, "No Data Found", Toast.LENGTH_LONG).show();
     	         }
     	    }
     	);

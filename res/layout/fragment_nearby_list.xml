@@ -54,7 +54,7 @@
     <ListView
         android:id="@+id/nearbyList"
         android:layout_width="match_parent"
-        android:layout_height="450dp"
+        android:layout_height="match_parent"
         android:layout_above="@+id/sh"
         android:layout_below="@+id/seekBar1"
         android:divider="@android:color/transparent"
@@ -71,6 +71,7 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/button_selector"
             android:text="SHOW MORE"
+            android:visibility="gone"
             android:textColor="#ffffff" />
 
 </RelativeLayout>

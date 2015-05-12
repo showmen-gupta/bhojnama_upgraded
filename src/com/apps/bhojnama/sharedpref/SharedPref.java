@@ -13,6 +13,9 @@ public class SharedPref {
 	private final String USER_ID = "user_id";
 	private final String LOG_IN_STATUS = "log_in_status";
 	private final String USER_TOKEN="user_token";
+	private final String USER_NAME="user_name";
+	private final String FIRST_NAME="first_name";
+	private final String EMAIL="email";
 	
 	public SharedPref(Context mContext) {
 		super();
@@ -49,6 +52,37 @@ public class SharedPref {
 		spEditor.putString(USER_TOKEN, userToken);
 		spEditor.commit();
 	}
+	
+	public String getUserName() {
+		return sharedPreferences.getString(USER_NAME, "");  
+	}
+	
+	public void setUserName(String userName) {
+		spEditor = sharedPreferences.edit();
+		spEditor.putString(USER_NAME, userName);
+		spEditor.commit();
+	}
+	
+	public String getFirstName() {
+		return sharedPreferences.getString(FIRST_NAME, "");  
+	}
+	
+	public void setFirstName(String firstName) {
+		spEditor = sharedPreferences.edit();
+		spEditor.putString(FIRST_NAME, firstName);
+		spEditor.commit();
+	}
+	
+	public String getEmail() {
+		return sharedPreferences.getString(EMAIL, "");  
+	}
+	
+	public void setEmail(String email) {
+		spEditor = sharedPreferences.edit();
+		spEditor.putString(EMAIL, email);
+		spEditor.commit();
+	}
+
 	
 	
 }

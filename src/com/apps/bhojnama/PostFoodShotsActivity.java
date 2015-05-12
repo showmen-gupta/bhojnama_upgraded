@@ -1,6 +1,8 @@
 package com.apps.bhojnama;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -11,6 +13,8 @@ import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,7 +32,9 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.BitmapAjaxCallback;
+import com.androidquery.callback.ImageOptions;
 import com.apps.bhojnama.sharedpref.SharedPref;
 import com.apps.bhojnamainfo.BhojNamaSingleton;
 import com.apps.customviews.CustomProgressDialog;
@@ -75,26 +81,19 @@ public class PostFoodShotsActivity extends Activity implements OnClickListener {
 		dialogUploadImage.setCanceledOnTouchOutside(true);
 		dialogUploadImage.setCancelable(true);
 
-		dialogUploadImage.getWindow().setLayout(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
-		dialogUploadImage.getWindow().setBackgroundDrawable(
-				new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		dialogUploadImage.getWindow().setLayout(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		dialogUploadImage.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-		final Button btnCamera = (Button) dialogUploadImage
-				.findViewById(R.id.btn_post_cam);
-		final Button btnGallary = (Button) dialogUploadImage
-				.findViewById(R.id.btn_post_gallary);
+		final Button btnCamera = (Button) dialogUploadImage.findViewById(R.id.btn_post_cam);
+		final Button btnGallary = (Button) dialogUploadImage.findViewById(R.id.btn_post_gallary);
 
 		btnCamera.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				try {
+					
 					Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-					mImageCaptureUri = Uri.fromFile(new File(Environment
-							.getExternalStorageDirectory(), "/bhojnama_pic_"
-							+ String.valueOf(System.currentTimeMillis())
-							+ ".jpg"));
-					intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,
-							mImageCaptureUri);
+					mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "/bhojnama_pic_" + String.valueOf(System.currentTimeMillis()) + ".jpg"));
+					intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
 					intent.putExtra("return-data", true);
 					startActivityForResult(intent, PICK_FROM_CAMERA);
 				} catch (ActivityNotFoundException e) {
@@ -110,9 +109,7 @@ public class PostFoodShotsActivity extends Activity implements OnClickListener {
 				Intent intent = new Intent();
 				intent.setType("image/*");
 				intent.setAction(Intent.ACTION_GET_CONTENT);
-				startActivityForResult(
-						Intent.createChooser(intent, "Complete action using"),
-						PICK_FROM_GALLERY);
+				startActivityForResult(Intent.createChooser(intent, "Complete action using"), PICK_FROM_GALLERY);
 				dialogUploadImage.dismiss();
 			}
 		});
@@ -135,26 +132,32 @@ public class PostFoodShotsActivity extends Activity implements OnClickListener {
 			break;
 
 		case PICK_FROM_GALLERY:
-			mImageCaptureUri = data.getData();
-			selectedImagePath = mImageCaptureUri.getPath().toString();
+			
+			final Uri uri = data.getData();
+			//selectedImagePath = getPath(uri);
+			
+			
+			
+			Log.e("Galery IMAGE", "****== " + getRealPathFromURI(uri));
+			File file = new File("");
+			aq.id(imgViewPick).image(file , false, 300, new BitmapAjaxCallback(){
 
-			String[] filePathColumn = { MediaStore.Images.Media.DATA };
-			Cursor cursor = getContentResolver().query(mImageCaptureUri,
-					filePathColumn, null, null, null);
-			cursor.moveToFirst();
-			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-
-			// the path where the image is located is stored in string variable
-			selectedImagePath = cursor.getString(columnIndex);
-			cursor.close();
-
-			Log.e("GALLERY IMAGE", "****" + selectedImagePath);
-
-			bmCallBack.url(selectedImagePath).targetWidth(300).rotate(true);
-			bmCallBack.memCache(true);
-			bmCallBack.fileCache(true);
-			aq.id(imgViewPick).image(bmCallBack);
-
+			    @Override
+			    public void callback(String url, ImageView iv, Bitmap bm, AjaxStatus status){
+			        try {
+						bm = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+						iv.setImageBitmap(bm);
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					};
+			        
+			    }
+			    
+			}.targetWidth(300).rotate(true));
+			
+			
 			break;
 
 		// case CROP_FROM_CAMERA:
@@ -163,12 +166,46 @@ public class PostFoodShotsActivity extends Activity implements OnClickListener {
 		// }
 		}
 	}
+	
+	public String getRealPathFromURI(Uri contentUri) {
 
+        // can post image
+        String [] proj={MediaStore.Images.Media.DATA};
+        Cursor cursor = this.getContentResolver().query( contentUri,
+                        proj, // Which columns to return
+                        null,       // WHERE clause; which rows to return (all rows)
+                        null,       // WHERE clause selection arguments (none)
+                        null); // Order-by clause (ascending by name)
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+
+        return cursor.getString(column_index);
+}
+	
+	public String getPath(Uri uri) {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
+	
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.image_view_btn_pick) {
 			initUploadImageOptionUI();
 		} else if (v.getId() == R.id.btn_make_food_shots) {
+			
+			if(editTextTitle.getText().toString().equalsIgnoreCase("")){
+				Toast.makeText(PostFoodShotsActivity.this, "Please fill the fields carefully", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			
+			if(editTextDescription.getText().toString().equalsIgnoreCase("")){
+				Toast.makeText(PostFoodShotsActivity.this, "Please fill the fields carefully", Toast.LENGTH_SHORT).show();
+				return;
+			} 
+			
 			postFoodShot();
 		}
 
@@ -188,13 +225,6 @@ public class PostFoodShotsActivity extends Activity implements OnClickListener {
 				@Override
 				public void OnResponse(String uploadedPhotoName) {
 					progress.dismiss();
-					if(uploadedPhotoName==""){
-						Toast.makeText(
-						PostFoodShotsActivity.this,
-						"Please fill the fields carefully",
-						Toast.LENGTH_SHORT).show();
-					}
-					else{
 					Toast.makeText(
 							PostFoodShotsActivity.this,
 							PostFoodShotsActivity.this.getResources()
@@ -202,11 +232,9 @@ public class PostFoodShotsActivity extends Activity implements OnClickListener {
 							Toast.LENGTH_SHORT).show();
 					Log.i("Upload Response", "====" + uploadedPhotoName);
 					resetInputText();
-					}
+					
 				}
-			}, true).execute(editTextTitle.getText().toString(),
-					editTextDescription.getText().toString(),
-					selectedImagePath, timeStamp, sharedPref.getUserID(),
+			}, true).execute(editTextTitle.getText().toString(), editTextDescription.getText().toString(), selectedImagePath, timeStamp, sharedPref.getUserID(),
 					sharedPref.getUserToken());
 		
 	}

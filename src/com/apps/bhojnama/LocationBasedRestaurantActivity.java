@@ -49,7 +49,7 @@ public class LocationBasedRestaurantActivity extends Activity implements OnItemC
 		setContentView(R.layout.activity_hottest);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		this.getActionBar().setTitle("Restaurant Search List");
-		Toast.makeText(getApplicationContext(), "Please wait for a while", Toast.LENGTH_LONG).show();
+		Toast.makeText(getApplicationContext(), "Please wait for a while, Location Based Restaurant Search is working!!!", Toast.LENGTH_LONG).show();
 		intiView();
 		setListener();
 		loadData();
@@ -104,6 +104,7 @@ public class LocationBasedRestaurantActivity extends Activity implements OnItemC
     	         @Override
     	         public void onErrorResponse(VolleyError error) {
     	        	 progBarHottestList.setVisibility(View.GONE);
+    	        	 Toast.makeText(LocationBasedRestaurantActivity.this, "No Data Found", Toast.LENGTH_LONG).show();
     	         }
     	    }
     	);

@@ -1,5 +1,7 @@
 package com.apps.bhojnama;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,16 +9,24 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -60,7 +70,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		/*try {
+		try {
 			PackageInfo info = getPackageManager().getPackageInfo(
 					"com.apps.bhojnama", PackageManager.GET_SIGNATURES);
 			for (Signature signature : info.signatures) {
@@ -75,7 +85,7 @@ public class MainActivity extends Activity {
 			Log.e("HASH ERROE:", "######" + e.getMessage());
 		} catch (NoSuchAlgorithmException e) {
 			Log.e("HASH EROE:", "######" + e.getMessage());
-		}*/
+		}
 		setContentView(R.layout.activity_main);
 
 		// Initializing
@@ -383,8 +393,89 @@ public class MainActivity extends Activity {
 			
 		}
 		super.onResume();
-		
 
+	}
+	
+	@Override
+	public void onBackPressed() {
+		FragmentManager frgManager = getFragmentManager();
+		int count = frgManager.getBackStackEntryCount();
+		if (count == 0) {
+			AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(this);
+
+			// Setting Dialog Title
+			alertDialog2.setTitle("Message");
+
+			// Setting Dialog Message
+			alertDialog2.setMessage("Are you sure you want to quit now?");
+
+			// Setting Icon to Dialog
+			alertDialog2.setIcon(R.drawable.ic_launcher);
+
+			// Setting Positive "Yes" Btn
+			alertDialog2.setPositiveButton("YES",
+			        new DialogInterface.OnClickListener() {
+			            public void onClick(DialogInterface dialog, int which) {
+			            	dialog.dismiss();
+			            	finish();// Write your code here to execute after dialog
+			               // Toast.makeText(getApplicationContext(),"You clicked on YES", Toast.LENGTH_SHORT).show();
+			            	
+			            }
+			        });
+			// Setting Negative "NO" Btn
+			alertDialog2.setNegativeButton("NO",
+			        new DialogInterface.OnClickListener() {
+			            public void onClick(DialogInterface dialog, int which) {
+			                // Write your code here to execute after dialog
+			                Toast.makeText(getApplicationContext(),"You clicked on NO", Toast.LENGTH_SHORT).show();
+			                dialog.dismiss();
+			                return;
+			            }
+			        });
+
+			// Showing Alert Dialog
+			alertDialog2.show();
+		} else {
+			super.onBackPressed();
+		}
+		
+		//
+		
+	}
+	
+	private void showDialog() {
+		AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(this);
+
+		// Setting Dialog Title
+		alertDialog2.setTitle("Message");
+
+		// Setting Dialog Message
+		alertDialog2.setMessage("Are you sure you want to quit now?");
+
+		// Setting Icon to Dialog
+		alertDialog2.setIcon(R.drawable.ic_launcher);
+
+		// Setting Positive "Yes" Btn
+		alertDialog2.setPositiveButton("YES",
+		        new DialogInterface.OnClickListener() {
+		            public void onClick(DialogInterface dialog, int which) {
+		            	dialog.cancel();
+		            	finish();// Write your code here to execute after dialog
+		               // Toast.makeText(getApplicationContext(),"You clicked on YES", Toast.LENGTH_SHORT).show();
+		            }
+		        });
+		// Setting Negative "NO" Btn
+		alertDialog2.setNegativeButton("NO",
+		        new DialogInterface.OnClickListener() {
+		            public void onClick(DialogInterface dialog, int which) {
+		                // Write your code here to execute after dialog
+		                Toast.makeText(getApplicationContext(),"You clicked on NO", Toast.LENGTH_SHORT).show();
+		                dialog.cancel();
+		            }
+		        });
+
+		// Showing Alert Dialog
+		alertDialog2.show();
 	}
 
 }

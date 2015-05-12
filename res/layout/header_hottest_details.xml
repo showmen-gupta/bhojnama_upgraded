@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/relativeLayout1"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/blur_green"
         android:padding="10dp" >
 
@@ -15,9 +15,9 @@
             android:id="@+id/txt_view_restaurant_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="88dp"
+            android:layout_alignTop="@+id/img_logo"
+            android:layout_toRightOf="@+id/img_logo"
+            android:layout_marginLeft="5dp"
             android:text="Title"
             android:textColor="@color/white"
             android:textSize="18sp" />
@@ -30,50 +30,64 @@
             android:layout_alignParentTop="true"
             android:src="@drawable/demo_food1" />
 
-        <Button
-            android:id="@+id/btn_get_me_there"
-            android:layout_width="95dp"
-            android:layout_height="30dp"
-            android:layout_alignBaseline="@+id/btn_book_table"
-            android:layout_alignBottom="@+id/btn_book_table"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/button_selector"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:text="Get Me There"
-            android:textColor="#fff"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/btn_book_table"
-            android:layout_width="95dp"
-            android:layout_height="30dp"
-            android:layout_alignLeft="@+id/img_logo"
-            android:layout_below="@+id/img_logo"
+        <LinearLayout
+            android:id="@+id/linear_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView3"
             android:layout_marginTop="15dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:background="@drawable/button_selector"
-            android:text="Book A Table"
-            android:textColor="#fff"
-            android:textSize="14sp" />
+            android:gravity="center_horizontal"
+            android:weightSum="3"
+            android:orientation="horizontal" >
 
-        <Button
-            android:id="@+id/btn_submit_review"
-            android:layout_width="95dp"
-            android:layout_height="30dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/btn_get_me_there"
-            android:background="@drawable/button_selector"
-            android:text="Reviews"
-            android:textColor="#fff"
-            android:textSize="14sp" />
+            <Button
+                android:id="@+id/btn_get_me_there"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/button_shape"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:layout_marginRight="5dp"
+                android:text="Get Me There"
+                android:textColor="#fff"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btn_book_table"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:background="@drawable/button_shape"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="Book A Table"
+                android:textColor="#fff"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btn_submit_review"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_shape"
+                android:text="Reviews"
+                android:layout_marginLeft="5dp"
+                android:textColor="#fff"
+                android:textSize="14sp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/txt_view_address"
+            android:layout_below="@+id/txt_view_restaurant_name"
             android:layout_alignLeft="@+id/txt_view_restaurant_name"
             android:text="Dhaka, Bangladesh"
             android:textColor="#ffffff" />
@@ -82,32 +96,32 @@
             android:id="@+id/txt_view_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/textView3"
+            android:layout_below="@+id/address"
             android:layout_alignLeft="@+id/address"
             android:text="Type"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/btn_book_table"
-            android:layout_alignLeft="@+id/txt_view_address"
-            android:text="1000"
             android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/btn_book_table"
-            android:layout_toRightOf="@+id/textView4"
-            android:layout_marginLeft="10dp"
+            android:layout_alignLeft="@+id/txt_view_restaurant_name"
+            android:layout_below="@+id/txt_view_address"
+            android:layout_alignBaseline="@+id/img_logo"
             android:text="Likes"
             android:textColor="@color/white" />
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_view_address"
+            android:layout_toRightOf="@+id/textView3"
+            android:layout_marginLeft="10dp"
+            android:text="1000"
+            android:textColor="@color/white" />
 
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/relativeLayout4"

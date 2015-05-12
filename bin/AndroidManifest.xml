@@ -53,15 +53,18 @@
         </activity>
         <activity
             android:name="com.apps.bhojnama.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.apps.bhojnama.LocationBasedRestaurantActivity"
-            android:label="@string/title_activity_hottest" >
+            android:label="@string/title_activity_hottest"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.apps.bhojnama.RestaurantDetailsActivity"
-            android:label="@string/title_activity_restaurantdetails" >
+            android:label="@string/title_activity_restaurantdetails" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.apps.bhojnama.NearbyMapDirectionActivity"
@@ -69,27 +72,33 @@
         </activity>
         <activity
             android:name="com.apps.bhojnama.PostFoodShotsActivity"
-            android:label="@string/title_activity_restaurantdetails" >
+            android:label="@string/title_activity_restaurantdetails" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.apps.bhojnama.FoodShotDetailActitvity"
-            android:label="@string/title_activity_restaurantdetails" >
+            android:label="@string/title_activity_restaurantdetails" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.apps.bhojnama.SignUpActivity"
-            android:label="@string/title_signup_activity" >
+            android:label="@string/title_signup_activity"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.apps.bhojnama.RestaurantReviewActivity"
-            android:label="@string/title_signup_activity" >
+            android:label="@string/title_signup_activity" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.apps.bhojnama.SubmitReviewActivity"
-            android:label="@string/title_submit_review" >
+            android:label="@string/title_submit_review" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.apps.bhojnama.LogInActivity"
-            android:label="@string/title_submit_review" >
+            android:label="@string/title_submit_review" 
+            android:screenOrientation="portrait">
         </activity>
 
         <meta-data

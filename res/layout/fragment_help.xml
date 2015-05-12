@@ -7,19 +7,33 @@
     <ImageView
         android:id="@+id/frag1_icon"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/frag1_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge" 
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher" 
+        android:layout_marginTop="20dp"/>
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:text="If you have questions please contact us on support@bhojnama.com. We will be available to answer your issues." 
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"/>
 
 </LinearLayout>

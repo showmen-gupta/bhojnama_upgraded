@@ -34,7 +34,8 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/img_logo"
+            android:layout_below="@+id/txt_view_address"
+            android:layout_marginTop="5dp"
             android:text="Likes"
             android:textColor="@color/white" />
 
@@ -43,6 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/textView3"
+            android:layout_alignTop="@+id/textView3"
             android:layout_alignBottom="@+id/textView3"
             android:layout_marginLeft="30dp"
             android:layout_toRightOf="@+id/textView3"

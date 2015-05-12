@@ -26,6 +26,7 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.apps.bhojnama.sharedpref.SharedPref;
 import com.apps.customviews.CustomProgressDialog;
 import com.apps.jsonparser.JsonParser;
 import com.apps.utility.ConstantValue;
@@ -63,6 +64,16 @@ public class SignUpActivity extends Activity implements OnClickListener{
 		editTextUserName = (EditText) findViewById(R.id.editTextUserName);
 		editTextEmail = (EditText) findViewById(R.id.editTextEmail);
 		editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+		 SharedPref sharedPref = new SharedPref(SignUpActivity.this);
+		
+		//Log.e("email", sharedPref.getEmail());
+		
+		if(sharedPref.getEmail()!="" && sharedPref.getUserName()!="" && sharedPref.getFirstName()!=""){
+			editTextEmail.setText(sharedPref.getEmail().toString());
+			editTextFirstName.setText(sharedPref.getFirstName().toString());
+			editTextUserName.setText(sharedPref.getUserName().toString());
+		}
+		
 		
 		
 	}

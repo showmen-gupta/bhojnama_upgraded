@@ -33,6 +33,8 @@ public class HottestInfo {
 	private String published_date;
 	private int review_author_id;
 	private String review_author_name;
+	private int review_count;
+	
 	
 	private ArrayList<HottestFoodItemInfo> hottestFoodItemList;
 	private ArrayList<ReviewInfo> arrayListReviewInfo;
@@ -278,6 +280,16 @@ public class HottestInfo {
 	public void setArrayListReviewInfo(ArrayList<ReviewInfo> arrayListReviewInfo) {
 		this.arrayListReviewInfo = arrayListReviewInfo;
 	}
+
+	public int getReview_count() {
+		return review_count;
+	}
+
+	public void setReview_count(int review_count) {
+		this.review_count = review_count;
+	}
+
+
 
 	
 }

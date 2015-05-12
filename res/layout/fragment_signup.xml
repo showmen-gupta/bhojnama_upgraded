@@ -19,8 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:ems="10"
-            android:text="mistry@gmail.com"
-            android:hint="user name" >
+            
+            android:hint="Email Address" >
         </EditText>
 
         <EditText
@@ -30,8 +30,8 @@
             android:layout_below="@+id/edit_text_user"
             android:layout_marginTop="10dp"
             android:ems="10"
-            android:text="test1234"
-            android:hint="password"
+            
+            android:hint="Password"
             android:inputType="textPassword" >
         </EditText>
 

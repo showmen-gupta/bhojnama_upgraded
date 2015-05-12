@@ -7,13 +7,12 @@
 
     <ImageView
         android:id="@+id/view_pager_img"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txt_view_title"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:scaleType="fitCenter"
-         
         android:padding="5dp" />
 
     <TextView
@@ -23,7 +22,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/txt_view_details"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="25dp"
         android:text="TextView"
         android:textColor="@color/light_green"
         android:textStyle="bold" />

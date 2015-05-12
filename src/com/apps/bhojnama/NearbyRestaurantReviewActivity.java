@@ -174,6 +174,7 @@ public class NearbyRestaurantReviewActivity extends Activity implements OnClickL
     	         @Override
     	         public void onErrorResponse(VolleyError error) {
     	             // error.
+    	        	 Toast.makeText(NearbyRestaurantReviewActivity.this, "No Data Found", Toast.LENGTH_LONG).show();
     	         }
     	    }
     	);

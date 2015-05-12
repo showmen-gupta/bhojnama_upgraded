@@ -69,7 +69,7 @@ public class NearbyFragment extends Fragment implements OnItemClickListener,OnCl
 		rootView = inflater.inflate(R.layout.fragment_nearby_list, container, false);
 		listview =(ListView) rootView.findViewById(R.id.nearbyList);
 		progBar = (ProgressBar) rootView.findViewById(R.id.progBar);
-		Toast.makeText(getActivity(), "Please wait for a while", Toast.LENGTH_LONG).show();
+		Toast.makeText(getActivity(), "Please wait for a while,your Nearby Restaurants are Loading!!!", Toast.LENGTH_LONG).show();
 		showmore= (Button) rootView.findViewById(R.id.show_more);
 		
 		Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf"); 
@@ -112,6 +112,7 @@ public class NearbyFragment extends Fragment implements OnItemClickListener,OnCl
     	         public void onErrorResponse(VolleyError error) {
     	             // error.
     	        	 progBar.setVisibility(View.GONE);
+    	        	 Toast.makeText(getActivity(), "No Data Found", Toast.LENGTH_LONG).show();
     	         }
     	    }
     	);

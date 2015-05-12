@@ -2,10 +2,15 @@ package com.apps.adapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.json.JSONException;
 
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -15,8 +20,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -24,15 +31,21 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
+import com.android.volley.Request.Method;
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.androidquery.AQuery;
 import com.apps.adapter.HottestAdapter.ViewHolder;
 import com.apps.bhojnama.R;
+import com.apps.bhojnama.sharedpref.SharedPref;
 import com.apps.bhojnamainfo.BhojNamaSingleton;
 import com.apps.datamodel.HottestInfo;
 import com.apps.datamodel.NearbyInfo;
 import com.apps.datamodel.NearbyResInfo;
+import com.apps.jsonparser.JsonParser;
+import com.apps.utility.ConstantValue;
 import com.google.android.gms.maps.model.LatLng;
 
 public class NearbyAdapter extends BaseAdapter{
@@ -67,7 +80,7 @@ public class NearbyAdapter extends BaseAdapter{
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup arg2) {
+	public View getView(final int position, View convertView, ViewGroup arg2) {
 		final ViewHolder holder;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -79,20 +92,35 @@ public class NearbyAdapter extends BaseAdapter{
 			holder.txtViewAddress = (TextView) convertView.findViewById(R.id.txt_view_address);
 			holder.txtViewDistance = (TextView) convertView.findViewById(R.id.txtViewDistance);
 			holder.txtViewLike = (TextView) convertView.findViewById(R.id.txtViewLike);
+			holder.review_count= (TextView) convertView.findViewById(R.id.review_count);
 			holder.address=(TextView) convertView.findViewById(R.id.address);
 			holder.txtViewsCount= (TextView) convertView.findViewById(R.id.views);
 			holder.logo= (ImageView) convertView.findViewById(R.id.icon);
+			holder.like_btn=(Button) convertView.findViewById(R.id.like_button);
 			convertView.setTag(holder);
 
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
-		holder.txtViewLike.setOnClickListener(new OnClickListener() {
-			
+		holder.like_btn.setOnClickListener(new OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
-				callLikeApi(holder.txtViewLike);
+				SharedPref sharedPref = new SharedPref(context);
+				if (sharedPref.getLoginStatus().equalsIgnoreCase("1")) {
+					// Toast.makeText(context, "Like accepted",
+					// Toast.LENGTH_SHORT).show();
+					//holder.txtViewsCount.setText("" + (Integer.parseInt(holder.txtViewsCount.getText().toString()) + 1));
+					//holder.like_btn.setBackgroundResource(R.drawable.like_activated_1);
+					callLikeApi(holder.like_btn,holder.txtViewsCount ,position);
+					
+				} else {
+					Toast.makeText(context,
+							"Please Login First To Like This Restaurant",
+							Toast.LENGTH_SHORT).show();
+				}
+
 			}
 		});
 		
@@ -100,6 +128,7 @@ public class NearbyAdapter extends BaseAdapter{
 		holder.txtViewRestaurantName.setText(nearInfo.get(position).getRestaurantName());
 		holder.txtViewAddress.setText(nearInfo.get(position).getOpeningHour());
 		holder.txtViewsCount.setText(Integer.toString(nearInfo.get(position).getLikes()));
+		holder.review_count.setText(Integer.toString(nearInfo.get(position).getReview_count()));
 		new AQuery(context).id(holder.logo).image(img_url +nearInfo.get(position).getLogo(), true, true, 0, R.drawable.appicon);
 		holder.address.setText(nearInfo.get(position).getArea()
 						+ ", "
@@ -118,10 +147,10 @@ public class NearbyAdapter extends BaseAdapter{
 		TextView txtViewStartDate;
 		TextView txtViewStartDay;
 		TextView txtViewsCount;
-		
+		Button like_btn;
 		TextView txtViewEndDate;
 		TextView txtViewEndDay;
-		
+		TextView review_count;
 		TextView txtViewStartTime;
 		TextView txtViewEndTime;
 		TextView txtViewLike;
@@ -147,44 +176,76 @@ public class NearbyAdapter extends BaseAdapter{
         return distance * 0.000621371192;
     }
 	
-	private void callLikeApi(final TextView txtViewLike) {
-		RequestQueue queue = Volley.newRequestQueue(context);
+	ProgressDialog progress;
+	private void callLikeApi(final Button Like,final TextView likeCount, int position ) {
 		
-    	
-    	String url = "api/branch/1/like/"+ "id" + BhojNamaSingleton.getInstance().getUserInfo().getID();
-    	StringRequest dr = new StringRequest(Request.Method.GET, url, 
-    	    new Response.Listener<String>() 
-    	    {
-    	        @Override
-    	        public void onResponse(String response) {
-    	            //response
-    	        	Log.e("Response", "***" + response);
-    	        	txtViewLike.setText("" + txtViewLike.getText() + 1);
-    	        	/*try {
-    	        		
-						//JsonParser.parseReviewtData(response);
-						//listview.setAdapter(hottestAdapter);
-						//listview.onRefreshComplete();
-						//progBarHottestList.setVisibility(View.GONE);
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}*/
-    	        }
-    	    }, 
-    	    new Response.ErrorListener() 
-    	    {
-    	         @Override
-    	         public void onErrorResponse(VolleyError error) {
-    	             // error.
-    	         }
-    	    }
-    	);
-    	
-    	int socketTimeout = 30000; //30 seconds - change to what you want
+		RequestQueue queue = Volley.newRequestQueue(context);
+		final SharedPref sharedPref = new SharedPref(context);
+		Log.e("user_id", ""+sharedPref.getUserID());
+		Log.e("token",""+sharedPref.getUserToken());
+		
+		int branch_id= BhojNamaSingleton.getInstance().getArrayListNearByResInfo().get(position).getBranchId();
+		String like_url= ConstantValue.BASE_URL_LIKE+ branch_id+"/like";
+	
+		StringRequest myReq = new StringRequest(Method.POST, like_url, createMyReqSuccessListener(Like,likeCount), createMyReqErrorListener()) {
+			protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
+				Map<String, String> params = new HashMap<String, String>();
+				
+				params.put("Content-Type", "application/json; charset=utf-8");
+				params.put("user_id", sharedPref.getUserID());
+				params.put("token", sharedPref.getUserToken());
+
+				
+
+				return params;
+			};
+		};
+		
+        
+        int socketTimeout = 30000;//30 seconds - change to what you want
     	RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-    	dr.setRetryPolicy(policy);
-    	queue.add(dr);
+    	myReq.setRetryPolicy(policy);
+        queue.add(myReq);
+        
+        progress = new ProgressDialog(context);
+        progress.setMessage("Please wait....");
+        progress.show();
+		
+	}
+	
+	private ErrorListener createMyReqErrorListener() {
+		return new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            	Toast.makeText(context, "You can not Like it Twice", Toast.LENGTH_LONG).show();
+            	progress.dismiss();
+            }
+        };
+	}
+
+	private Listener<String> createMyReqSuccessListener(final Button Like,final TextView Like_count) {
+		return new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+            	progress.dismiss();
+            	Log.e("Login Test", "*****" + response);
+            	try {
+					int status= JsonParser.parseLikedata(response);
+					if(status==1){
+						Toast.makeText(context, "Thanks For the Like (y)", Toast.LENGTH_LONG).show();
+						Like.setBackgroundResource(R.drawable.like_activated_1);
+						Like_count.setText("" + (Integer.parseInt(Like_count.getText().toString()) + 1));
+					} else{
+						Toast.makeText(context, "You can not Like it Twice", Toast.LENGTH_LONG).show();
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+            	
+            }
+
+        };
 	}
 
 }

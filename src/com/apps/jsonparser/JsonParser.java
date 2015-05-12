@@ -70,6 +70,8 @@ public class JsonParser {
 				
 				hottestInfo.setLikes(jsonResultArray.getJSONObject(i).getInt("likes"));
 				
+				hottestInfo.setReview_count(jsonResultArray.getJSONObject(i).getInt("review_count"));
+				
 				JSONArray branchArray = jsonResultArray.getJSONObject(i).getJSONArray("branches");
 				
 				JSONArray itemArray = jsonResultArray.getJSONObject(i).getJSONArray("items");
@@ -130,6 +132,8 @@ public class JsonParser {
 				hottestInfo.setLogo(jsonResultArray.getJSONObject(i).getString("logo"));
 				
 				hottestInfo.setLikes(jsonResultArray.getJSONObject(i).getInt("likes"));
+				
+				hottestInfo.setReview_count(jsonResultArray.getJSONObject(i).getInt("review_count"));
 				
 				JSONArray branchArray = jsonResultArray.getJSONObject(i).getJSONArray("branches");
 				
@@ -461,7 +465,7 @@ public class JsonParser {
 			nearInfo.setRestaurantAbout(jsonResultArray.getJSONObject(i).getString("about"));
 			nearInfo.setLogo(jsonResultArray.getJSONObject(i).getString("logo"));
 			nearInfo.setLikes(jsonResultArray.getJSONObject(i).getInt("likes"));
-				
+			nearInfo.setReview_count(jsonResultArray.getJSONObject(i).getInt("review_count"));	
 			JSONArray branchArray = jsonResultArray.getJSONObject(i).getJSONArray("branches");
 				
 			JSONArray itemArray = jsonResultArray.getJSONObject(i).getJSONArray("items");
@@ -499,6 +503,17 @@ public class JsonParser {
 		
 		//BhojNamaSingleton.getInstance().getHottestInfoList().add;
 		//BhojNamaSingleton.getInstance().setArrayListNearByInfo(listNearByInfo);
+		
+	}
+	
+	public static int parseLikedata(String response) throws JSONException{
+		
+		JSONObject jDataObj = new JSONObject(response);
+		
+		int status=jDataObj.getInt("status") ;
+		
+		return status;
+		
 		
 	}
 	
