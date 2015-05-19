@@ -179,7 +179,8 @@ public class LogInActivity   extends Activity implements OnClickListener {
         return new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-            	
+            	Toast.makeText(getApplicationContext(), "Wrong email or password", Toast.LENGTH_SHORT).show();
+            	progress.dismiss();
             }
         };
     }

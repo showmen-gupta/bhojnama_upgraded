@@ -32,7 +32,7 @@
         android:textSize="20dp"
         android:layout_marginTop="20dp"
         android:textStyle="bold"
-        android:text="If you have questions please contact us on support@bhojnama.com. We will be available to answer your issues." 
+        android:text="If you have questions please contact us on support@bhojnama.com. We will be available to answer your issues. Video Tutorial will be uploaded soon." 
         android:paddingRight="15dp"
         android:paddingLeft="15dp"/>
 

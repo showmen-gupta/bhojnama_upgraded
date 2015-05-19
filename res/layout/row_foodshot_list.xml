@@ -9,8 +9,10 @@
         android:id="@+id/relativeLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
         android:background="#F2F2F2"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:padding="5dp" >
 
         <TextView
@@ -18,7 +20,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLength="20"
-            android:padding="5dp"
             android:text="It is awesome. lets go to enjoy. \nFlambe Restaurant \nGulshan 2, Road 7" />
     </RelativeLayout>
 
@@ -27,7 +28,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/relativeLayout1"
-        android:layout_margin="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:background="#C2C3C5"
         android:padding="5dp" >
 
@@ -35,7 +37,6 @@
             android:id="@+id/imgViewShots"
             android:layout_width="match_parent"
             android:scaleType="fitCenter"
-            
             android:layout_height="150dp" />
     </RelativeLayout>
 

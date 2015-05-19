@@ -6,6 +6,7 @@ import com.apps.bhojnama.R.id;
 import com.apps.bhojnama.R.layout;
 
 import android.app.Fragment;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,7 @@ import android.widget.TextView;
 public class AboutFragment extends Fragment {
 
 	ImageView ivIcon;
-	TextView tvItemName;
+	TextView tvItemName,desc;
 
 	public static final String IMAGE_RESOURCE_ID = "iconResourceID";
 	public static final String ITEM_NAME = "itemName";
@@ -38,6 +39,11 @@ public class AboutFragment extends Fragment {
 		tvItemName.setText(getArguments().getString(ITEM_NAME));
 		ivIcon.setImageDrawable(view.getResources().getDrawable(
 				getArguments().getInt(IMAGE_RESOURCE_ID)));
+		desc= (TextView) view.findViewById(R.id.textView1);
+		
+		Typeface type = Typeface.createFromAsset(getActivity().getAssets(),"fonts/OpenSans-Light.ttf");
+		desc.setTypeface(type);
+		
 		return view;
 	}
 

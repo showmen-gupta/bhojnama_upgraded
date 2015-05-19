@@ -45,12 +45,19 @@ import com.apps.datamodel.Nearbylist;
 import com.apps.jsonparser.JsonParser;
 import com.apps.utility.GPSTracker;
 import com.google.android.gms.maps.model.LatLng;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 
 public class NearbyFragment extends Fragment implements OnItemClickListener,OnClickListener {
 
 	ImageView ivIcon;
 	TextView tvItemName;
 	private ProgressBar progBar;
+	private ProgressBar progBarHottestList;
+	private int currentPageLimit = 1;
+	private boolean isFirstTime = true;
 	
 	public static final String IMAGE_RESOURCE_ID = "iconResourceID";
 	public static final String ITEM_NAME = "itemName";
@@ -60,34 +67,61 @@ public class NearbyFragment extends Fragment implements OnItemClickListener,OnCl
 	public NearbyFragment() {}
 	private View rootView;
 	private List<Nearbylist> myNearby= new ArrayList<Nearbylist>();
-	ListView listview;
+	private ArrayList<NearbyResInfo> myNearbyList = new ArrayList<NearbyResInfo>();
+	PullToRefreshListView listview;
 	Button showmore;
 	GPSTracker gps;
+	NearbyAdapter nearbyAdapter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.fragment_nearby_list, container, false);
-		listview =(ListView) rootView.findViewById(R.id.nearbyList);
+		listview =(PullToRefreshListView) rootView.findViewById(R.id.nearbyList);
 		progBar = (ProgressBar) rootView.findViewById(R.id.progBar);
 		Toast.makeText(getActivity(), "Please wait for a while,your Nearby Restaurants are Loading!!!", Toast.LENGTH_LONG).show();
 		showmore= (Button) rootView.findViewById(R.id.show_more);
+		progBarHottestList = (ProgressBar) rootView.findViewById(R.id.progBarHottestList);
 		
 		Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf"); 
 		showmore.setTypeface(font);
 
 		gps = new GPSTracker(getActivity());
 		//URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + new GPSTracker(getActivity()).getLatitude() +"," + new GPSTracker(getActivity()).getLongitude() +"&radius=500&types=restaurant&key=AIzaSyCe07HODubxXpJWTCpgWTlBFkRMBwrsPj4";
-        URL = "http://api.bhojnama.com/api/nearby?longitude=" + gps.getLongitude() +"&latitude=" + gps.getLatitude() + "&page=1&limit=50";
+        URL = "http://api.bhojnama.com/api/nearby?longitude=" + gps.getLongitude() +"&latitude=" + gps.getLatitude();
 		///populateNearbyList();
-        populateListView();
+        setListViewListener();
+        listview.setMode(Mode.PULL_FROM_END);
+        populateListView(10, 1);
+        
         //populateNearbyList();
         return rootView;
 	}
+	
+	private void setListViewListener() {
+		
+		listview.setOnRefreshListener(new OnRefreshListener2<ListView>() {
+			@Override
+			public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+				
+			}
 
-	private void populateListView() {
+			@Override
+			public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+				currentPageLimit += 1;
+				populateListView(10, currentPageLimit);
+				
+			}
+
+		});
+		
+		
+	}
+
+
+	private void populateListView(int limit, int pageLimit) {
 		RequestQueue queue = Volley.newRequestQueue(getActivity());
-    	
-    	String url = URL;
+		
+    	String url = URL+"&page=" + pageLimit + "&limit=" +limit ;
     	StringRequest dr = new StringRequest(Request.Method.GET, url, 
     	    new Response.Listener<String>() 
     	    {
@@ -96,10 +130,26 @@ public class NearbyFragment extends Fragment implements OnItemClickListener,OnCl
     	            // response
 					try {
 						progBar.setVisibility(View.GONE);
-						ArrayList<NearbyResInfo> nearByList = new ArrayList<NearbyResInfo>();
-						BhojNamaSingleton.getInstance().setArrayListNearByResInfo(nearByList);
-						JsonParser.parseNearbyResData(response);
-						populateNearbyList();
+						//ArrayList<NearbyResInfo> nearByList = new ArrayList<NearbyResInfo>();
+						//BhojNamaSingleton.getInstance().setArrayListNearByResInfo(nearByList);
+						
+						
+						if (isFirstTime) {
+							isFirstTime = false;
+							BhojNamaSingleton.getInstance().setArrayListNearByResInfo(myNearbyList);
+							JsonParser.parseNearbyResData(response);
+							myNearbyList = BhojNamaSingleton.getInstance().getArrayListNearByResInfo();
+							populateNearbyList();
+							
+							
+						} else {
+							JsonParser.parseNearbyResData(response);
+							//myNearbyList.addAll(BhojNamaSingleton.getInstance().getArrayListNearByResInfo());
+							//BhojNamaSingleton.getInstance().setArrayListNearByResInfo(myNearbyList);
+							nearbyAdapter.notifyDataSetChanged();
+							listview.onRefreshComplete();
+						}
+						
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -128,8 +178,12 @@ public class NearbyFragment extends Fragment implements OnItemClickListener,OnCl
 	private void populateNearbyList() {
 		LatLng latLng = new LatLng(gps.getLatitude(), gps.getLongitude());
 		listview.setOnItemClickListener(this);
-		listview.setAdapter(new NearbyAdapter(getActivity(), BhojNamaSingleton.getInstance().getArrayListNearByResInfo(), latLng));
+		nearbyAdapter = new NearbyAdapter(getActivity(), myNearbyList, latLng);
+		listview.setAdapter(nearbyAdapter);
+		listview.onRefreshComplete();
+		progBarHottestList.setVisibility(View.GONE);
 	}
+	
 	
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
@@ -139,7 +193,7 @@ public class NearbyFragment extends Fragment implements OnItemClickListener,OnCl
 		startActivity(intent);*/
 		Fragment fragment = null;
 		  Bundle args = new Bundle();
-		  args.putInt("position", position);
+		  args.putInt("position", position-1);
 		  fragment = new NearByResDetailsFragment();
 		  fragment.setArguments(args);
 		  FragmentManager frgManager = getFragmentManager();

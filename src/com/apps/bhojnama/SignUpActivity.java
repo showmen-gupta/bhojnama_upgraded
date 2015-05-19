@@ -142,7 +142,7 @@ public class SignUpActivity extends Activity implements OnClickListener{
             @Override
             public void onErrorResponse(VolleyError error) {
             	progress.dismiss();
-            	Toast.makeText(SignUpActivity.this, "Server Problem", Toast.LENGTH_SHORT).show();
+            	Toast.makeText(SignUpActivity.this, "Server Problem or Duplicate Email", Toast.LENGTH_SHORT).show();
             }
         };
     }

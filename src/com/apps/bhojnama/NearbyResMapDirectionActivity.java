@@ -121,7 +121,7 @@ public class NearbyResMapDirectionActivity extends Activity implements OnClickLi
 
 		if (gmap != null) {
 			CameraPosition cameraPosition = new CameraPosition.Builder()
-					.target(userLatLng).zoom(12) // Sets the zoom
+					.target(userLatLng).zoom(14) // Sets the zoom
 					.tilt(0) // Sets the tilt of the camera to 30 degrees
 					.build(); // Creates a CameraPosition from the builder
 		

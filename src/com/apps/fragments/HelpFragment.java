@@ -4,6 +4,7 @@ package com.apps.fragments;
 import com.apps.bhojnama.R;
 
 import android.app.Fragment;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,7 @@ import android.widget.TextView;
 public class HelpFragment extends Fragment {
 
 	ImageView ivIcon;
-	TextView tvItemName;
+	TextView tvItemName,desc;
 
 	public static final String IMAGE_RESOURCE_ID = "iconResourceID";
 	public static final String ITEM_NAME = "itemName";
@@ -27,7 +28,10 @@ public class HelpFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		View view = inflater.inflate(R.layout.fragment_help, container, false);
-
+		
+		desc= (TextView) view.findViewById(R.id.textView1);
+		Typeface type = Typeface.createFromAsset(getActivity().getAssets(),"fonts/OpenSans-Light.ttf");
+		desc.setTypeface(type);
 		/*ivIcon = (ImageView) view.findViewById(R.id.frag3_icon);
 		tvItemName = (TextView) view.findViewById(R.id.frag3_text);
 

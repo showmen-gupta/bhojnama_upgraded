@@ -17,11 +17,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -57,6 +60,7 @@ public class PostFoodShotsActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle splash) {
 		super.onCreate(splash);
 		setContentView(R.layout.activity_make_food_shots);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setTitle("Post Food Shots");
 		initViews();
 	}
@@ -135,27 +139,88 @@ public class PostFoodShotsActivity extends Activity implements OnClickListener {
 			
 			final Uri uri = data.getData();
 			//selectedImagePath = getPath(uri);
-			
-			
-			
-			Log.e("Galery IMAGE", "****== " + getRealPathFromURI(uri));
-			File file = new File("");
-			aq.id(imgViewPick).image(file , false, 300, new BitmapAjaxCallback(){
+			try {
+				
+				final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+				
+				if (isKitKat) {
+					String wholeID = DocumentsContract.getDocumentId(uri);
 
-			    @Override
-			    public void callback(String url, ImageView iv, Bitmap bm, AjaxStatus status){
-			        try {
-						bm = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-						iv.setImageBitmap(bm);
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					};
-			        
-			    }
-			    
-			}.targetWidth(300).rotate(true));
+		            // Split at colon, use second item in the array
+		            String id = wholeID.split(":")[1];
+
+		            String[] column = { MediaStore.Images.Media.DATA };     
+
+		            // where id is equal to             
+		            String sel = MediaStore.Images.Media._ID + "=?";
+
+		            Cursor cursor = getContentResolver().
+		                                      query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, 
+		                                      column, sel, new String[]{ id }, null);
+
+		            String filePath = "";
+
+		            int columnIndex = cursor.getColumnIndex(column[0]);
+
+		            if (cursor.moveToFirst()) {
+		                filePath = cursor.getString(columnIndex);
+		            }   
+		            cursor.close();
+		            Log.e("Galery IMAGE", "****== " + filePath);
+		            selectedImagePath = filePath;
+		            
+		            File file = new File(filePath);
+		            aq.id(imgViewPick).image(file , false, 300, new BitmapAjaxCallback(){
+
+					    @Override
+					    public void callback(String url, ImageView iv, Bitmap bm, AjaxStatus status){
+					        try {
+								bm = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+								iv.setImageBitmap(bm);
+							} catch (FileNotFoundException e) {
+								e.printStackTrace();
+							} catch (IOException e) {
+								e.printStackTrace();
+							};
+					        
+					    }
+					    
+					}.targetWidth(300).rotate(true));
+		            //setImageFromIntent(filePath);
+		            
+				} else {
+					Log.e("Galery IMAGE", "****== " + getRealPathFromURI(uri));
+					selectedImagePath = getRealPathFromURI(uri);
+					File file = new File("");
+					aq.id(imgViewPick).image(file , false, 300, new BitmapAjaxCallback(){
+
+					    @Override
+					    public void callback(String url, ImageView iv, Bitmap bm, AjaxStatus status){
+					        try {
+								bm = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+								iv.setImageBitmap(bm);
+							} catch (FileNotFoundException e) {
+								e.printStackTrace();
+							} catch (IOException e) {
+								e.printStackTrace();
+							};
+					        
+					    }
+					    
+					}.targetWidth(300).rotate(true));
+				}
+				
+			
+			
+				
+			} catch (Exception e) {
+				
+			}
+			 
+			
+			//
+			
+			
 			
 			
 			break;
@@ -224,6 +289,7 @@ public class PostFoodShotsActivity extends Activity implements OnClickListener {
 			new UploadImageAsyncTask(this, new OnImageUploadComplete() {
 				@Override
 				public void OnResponse(String uploadedPhotoName) {
+					selectedImagePath = "";
 					progress.dismiss();
 					Toast.makeText(
 							PostFoodShotsActivity.this,
@@ -233,6 +299,8 @@ public class PostFoodShotsActivity extends Activity implements OnClickListener {
 					Log.i("Upload Response", "====" + uploadedPhotoName);
 					resetInputText();
 					
+					startActivity(new Intent(PostFoodShotsActivity.this, MainActivity.class));
+					
 				}
 			}, true).execute(editTextTitle.getText().toString(), editTextDescription.getText().toString(), selectedImagePath, timeStamp, sharedPref.getUserID(),
 					sharedPref.getUserToken());
@@ -241,19 +309,28 @@ public class PostFoodShotsActivity extends Activity implements OnClickListener {
 
 	private void resetInputText() {
 		FoodShotsInfo newFoodShotsInfo = new FoodShotsInfo();
-		newFoodShotsInfo.setFoodShotName(editTextTitle.getText().toString()
-				.trim());
-		newFoodShotsInfo.setFoodShotDetails(editTextDescription.getText()
-				.toString().trim());
-		BhojNamaSingleton.getInstance().getArrayListFoodShots()
-				.add(newFoodShotsInfo);
+		newFoodShotsInfo.setFoodShotName(editTextTitle.getText().toString().trim());
+		newFoodShotsInfo.setFoodShotDetails(editTextDescription.getText().toString().trim());
+		BhojNamaSingleton.getInstance().getArrayListFoodShots().add(newFoodShotsInfo);
 
 		// BhojNamaSingleton.getInstance().getArrayListFoodShots().get(position).getFoodShotsComments().add(0,
 		// newFoodShotComments);
-
 		editTextTitle.setText("");
 		editTextDescription.setText("");
 		imgViewPick.setImageBitmap(null);
 	}
+	
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case android.R.id.home: 
+            // API 5+ solution
+            onBackPressed();
+            return true;
+
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }
 
 }
