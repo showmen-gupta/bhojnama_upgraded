@@ -94,7 +94,18 @@ public class LogInFragment   extends Fragment implements OnClickListener {
 			 fb.facebookLogin();
 			  
 		} else if (v.getId() == R.id.btn_login) {
-			 login();
+			String email=edtTextEmail.getText().toString();
+			String password= edtTextPassword.getText().toString();
+			if(email.matches("") && password.matches("")){
+				Toast.makeText(getActivity(), "Please Enter Your Email or Password", Toast.LENGTH_SHORT).show();
+			}
+			else{
+				
+				 login();	
+			}
+			
+	
+			
 			 
 		} else if (v.getId() == R.id.btnRegSubmit) {
 			Intent intent = new Intent(getActivity(), SignUpActivity.class);

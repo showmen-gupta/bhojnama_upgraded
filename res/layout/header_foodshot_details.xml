@@ -47,4 +47,19 @@
         android:layout_marginTop="20dp"
         android:text="TextView" />
 
+    <Button
+        android:id="@+id/btnFacebookShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/title"
+        android:layout_marginRight="14dp"
+        android:drawableLeft="@drawable/share"
+        android:drawablePadding="5dp"
+        android:background="@color/white"
+        android:text="SHARE"
+        android:textSize="16sp" />
+
 </RelativeLayout>

@@ -1,6 +1,8 @@
 package com.apps.bhojnama;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -8,8 +10,13 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,8 +39,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.androidquery.AQuery;
-import com.androidquery.callback.AjaxStatus;
-import com.androidquery.callback.BitmapAjaxCallback;
 import com.apps.adapter.FoodShotCommentsAdapter;
 import com.apps.bhojnama.sharedpref.SharedPref;
 import com.apps.bhojnamainfo.BhojNamaSingleton;
@@ -49,7 +54,7 @@ public class FoodShotDetailActitvity extends Activity implements
 	EditText edtTextComment;
 	ListView listComment;
 	ImageView image;
-	Button btnSend;
+	Button btnSend, btnFacebookShare;
 	FoodShotCommentsAdapter commentsAdapter;
 	View headerView;
 	int position;
@@ -67,6 +72,7 @@ public class FoodShotDetailActitvity extends Activity implements
 
 	private void setListener() {
 		btnSend.setOnClickListener(this);
+		btnFacebookShare.setOnClickListener(this);
 	}
 
 	private void loadData() {
@@ -75,7 +81,7 @@ public class FoodShotDetailActitvity extends Activity implements
 		title.setText(BhojNamaSingleton.getInstance().getArrayListFoodShots().get(position).getFoodShotName());
 		String img_url = "http://api.bhojnama.com";
 
-		new AQuery(image).image(img_url + BhojNamaSingleton.getInstance().getArrayListFoodShots().get(position) .getPhotUrl(), true, true, 600 ,R.drawable.demo_food);
+		new AQuery(image).image(img_url + BhojNamaSingleton.getInstance().getArrayListFoodShots().get(position) .getPhotUrl(), true, true,  0 ,R.drawable.demo_food);
 		//File file = new File(img_url + BhojNamaSingleton.getInstance().getArrayListFoodShots().get(position).getPhotUrl());    
 	    
 		//new AQuery(this).id(image).image(file, 300);
@@ -106,28 +112,14 @@ public class FoodShotDetailActitvity extends Activity implements
 		listComment = (ListView) findViewById(R.id.list_view_comments);
 		headerView = getLayoutInflater().inflate(R.layout.header_foodshot_details, null);
 		txtDetails = (TextView) headerView.findViewById(R.id.txt_view_details);
+		btnFacebookShare = (Button) headerView.findViewById(R.id.btnFacebookShare);
+		
 		txtCommentCount = (TextView) headerView.findViewById(R.id.txt_view_comments_count);
 		title = (TextView) headerView.findViewById(R.id.title);
 		image = (ImageView) headerView.findViewById(R.id.view_pager_img);
 		listComment.addHeaderView(headerView);
 	}
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.btnSend:
-			SharedPref sharedPref = new SharedPref(FoodShotDetailActitvity.this);
-			if (sharedPref.getLoginStatus().equalsIgnoreCase("1")) {
-				postComments();
-				Toast.makeText(FoodShotDetailActitvity.this, "Your Comment has been posted", Toast.LENGTH_SHORT).show();
-			} else {
-				Toast.makeText(FoodShotDetailActitvity.this, "Please Login First ", Toast.LENGTH_SHORT).show();
-			}
-			break;
-		default:
-			break;
-		}
-	}
 
 	ProgressDialog progress;
 
@@ -223,6 +215,31 @@ public class FoodShotDetailActitvity extends Activity implements
 
 	}
 	
+	 public Uri getLocalBitmapUri(ImageView imageView) {
+		    // Extract Bitmap from ImageView drawable
+		    Drawable drawable = imageView.getDrawable();
+		    Bitmap bmp = null;
+		    if (drawable instanceof BitmapDrawable){
+		       bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+		    } else {
+		       return null;
+		    }
+		    // Store image to default external storage directory
+		    Uri bmpUri = null;
+		    try {
+		        File file =  new File(Environment.getExternalStoragePublicDirectory(  
+		            Environment.DIRECTORY_DOWNLOADS), "share_image_" + System.currentTimeMillis() + ".png");
+		        file.getParentFile().mkdirs();
+		        FileOutputStream out = new FileOutputStream(file);
+		        bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+		        out.close();
+		        bmpUri = Uri.fromFile(file);
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		    }
+		    return bmpUri;
+		}
+	
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -235,5 +252,41 @@ public class FoodShotDetailActitvity extends Activity implements
             return super.onOptionsItemSelected(item);
         }
     }
+	
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.btnSend:
+			SharedPref sharedPref = new SharedPref(FoodShotDetailActitvity.this);
+			if (sharedPref.getLoginStatus().equalsIgnoreCase("1")) {
+				postComments();
+				Toast.makeText(FoodShotDetailActitvity.this, "Your Comment has been posted", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(FoodShotDetailActitvity.this, "Please Login First ", Toast.LENGTH_SHORT).show();
+			}
+			break;
+			
+		case R.id.btnFacebookShare:
+			  Uri bmpUri = getLocalBitmapUri(image);
+			  String desc=BhojNamaSingleton.getInstance().getArrayListFoodShots().get(position).getFoodShotDetails();
+			  String title=BhojNamaSingleton.getInstance().getArrayListFoodShots().get(position).getFoodShotName();
+			  
+              if (bmpUri != null) {
+                  // Construct a ShareIntent with link to image
+                  Intent shareIntent = new Intent();
+                  shareIntent.setAction(Intent.ACTION_SEND);
+                  shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+                  shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, desc);
+                  shareIntent.setType("image/*");
+                  // Launch sharing dialog for image
+                  startActivity(Intent.createChooser(shareIntent, "Share Image"));    
+              } else {
+                  // ...sharing failed, handle error
+              }
+			break;
+		default:
+			break;
+		}
+	}
 
 }

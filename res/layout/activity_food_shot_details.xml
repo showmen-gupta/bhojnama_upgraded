@@ -11,7 +11,7 @@
         android:layout_above="@+id/relative_bottom"
         android:layout_below="@+id/txt_view_comments_count"
         android:layout_marginTop="2dp"
-        
+        android:layout_marginBottom="10dp"
         android:scrollbars="none" >
     </ListView>
 
@@ -21,29 +21,30 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" >
 
-        <EditText
-            android:id="@+id/edtTextComment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/btnSend"
-            android:ems="10"
-            android:layout_marginRight="@dimen/edit_text_right_margin"
-            android:inputType="textMultiLine" >
-
-            <requestFocus />
-        </EditText>
-
         <Button
             android:id="@+id/btnSend"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:background="@drawable/button_selector"
             android:text="Send"
+            android:textSize="14sp"
             android:textColor="@color/com_facebook_loginview_text_color" />
+
+        <EditText
+            android:id="@+id/edtTextComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/btnSend"
+            android:layout_alignBottom="@+id/btnSend"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/btnSend"
+            android:textSize="12sp"
+            android:ems="10"
+            android:hint="Write your comments"
+            android:inputType="textMultiLine" />
 
     </RelativeLayout>
 
